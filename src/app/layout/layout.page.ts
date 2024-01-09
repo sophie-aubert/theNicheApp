@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { homeOutline, addCircleOutline, listOutline } from "ionicons/icons";
 
-// Custom type that represent a tab data.
+// Custom type that represents a tab data.
 declare type PageTab = {
   title: string; // The title of the tab in the tab bar
   icon: string; // The icon of the tab in the tab bar
@@ -18,8 +18,6 @@ declare type PageTab = {
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-
-
 export class LayoutPage {
   tabs: PageTab[];
 
@@ -30,4 +28,5 @@ export class LayoutPage {
       { title: "Liste achats ventes", icon: listOutline, path: "liste-achat-vente" },
     ];
   }
+
 }

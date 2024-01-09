@@ -17,7 +17,7 @@ export const routes: Routes =  [
       {
         // Route that loads the PlacesMap module
         path: "ajout-article",
-        loadChildren: () =>
+        loadComponent: () =>
           import("./layout/ajout-article/ajout-article.page").then(
             (m) => m.AjoutArticlePage
           ),
@@ -25,7 +25,7 @@ export const routes: Routes =  [
       {
         // Route that loads the TripList module
         path: "article",
-        loadChildren: () =>
+        loadComponent: () =>
           import("./layout/article/article.page").then(
             (m) => m.ArticlePage
           ),
@@ -33,42 +33,42 @@ export const routes: Routes =  [
       {
         // Route that loads the TripList module
         path: "donnees-perso",
-        loadChildren: () =>
+        loadComponent: () =>
           import("./layout/donnees-perso/donnees-perso.page").then(
             (m) => m.DonneesPersoPage
           ),
       },{
         // Route that loads the TripList module
         path: "inscription",
-        loadChildren: () =>
+        loadComponent: () =>
           import("./layout/inscription/inscription.page").then(
             (m) => m.InscriptionPage
           ),
       },{
         // Route that loads the TripList module
         path: "liste-achat-vente",
-        loadChildren: () =>
+        loadComponent: () =>
           import("./layout/liste-achat-vente/liste-achat-vente.page").then(
             (m) => m.ListeAchatVentePage
           ),
       },{
         // Route that loads the TripList module
         path: "login",
-        loadChildren: () =>
+        loadComponent: () =>
           import("./layout/login/login.page").then(
             (m) => m.LoginPage
           ),
       },{
         // Route that loads the TripList module
         path: "paiement",
-        loadChildren: () =>
+        loadComponent: () =>
           import("./layout/paiement/paiement.page").then(
             (m) => m.PaiementPage
           ),
       },{
         // Route that loads the TripList module
         path: "panier",
-        loadChildren: () =>
+        loadComponent: () =>
           import("./layout/panier/panier.page").then(
             (m) => m.PanierPage
           ),
