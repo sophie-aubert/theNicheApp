@@ -73,6 +73,11 @@ export const routes: Routes =  [
             (m) => m.PanierPage
           ),
       },
+      {
+        path: "",
+        redirectTo: "accueil", // Or whatever tab should be the default one.
+        pathMatch: "full",
+      },
     ],
   },
 ];
