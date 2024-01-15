@@ -1,5 +1,7 @@
 import {Routes} from "@angular/router";
 import { LayoutPage } from "./layout/layout.page";
+import { onlyAuthenticated } from "./security/only-authenticated.guard";
+
 export const routes: Routes =  [
   {
     // Default route
@@ -9,6 +11,9 @@ export const routes: Routes =  [
       {
         // Route that loads the CreateTrip module
         path: "accueil",
+        // PAS SURE QU'IL FAUT METTRE CA LA //
+        canActivate: [onlyAuthenticated],
+        //////////////////////////////////////
         loadComponent: () =>
           import("./layout/accueil/accueil.page").then(
             (m) => m.AccueilPage
@@ -55,7 +60,7 @@ export const routes: Routes =  [
         // Route that loads the TripList module
         path: "login",
         loadComponent: () =>
-          import("./layout/login/login.page").then(
+          import("./security/login/login.page").then(
             (m) => m.LoginPage
           ),
       },{
@@ -78,6 +83,11 @@ export const routes: Routes =  [
         redirectTo: "accueil", // Or whatever tab should be the default one.
         pathMatch: "full",
       },
-    ],
+ 
+  {
+    path: 'login',
+    loadComponent: () => import('./security/login/login.page').then( m => m.LoginPage)
   },
+],
+},
 ];
