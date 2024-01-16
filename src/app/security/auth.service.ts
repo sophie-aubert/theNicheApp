@@ -56,11 +56,11 @@ export class AuthService {
    * @returns An `Observable` that will emit the logged in `User` object on success.
    */
   logIn$(authRequest: AuthRequest): Observable<User> {
-    const authUrl = `${API_URL}/auth`;
+    const authUrl = `${API_URL}auth/login`;
     return this.http.post<AuthResponse>(authUrl, authRequest).pipe(
       map((auth) => {
         this.#auth$.next(auth);
-        console.log(`User ${auth.user.username} logged in`);
+        //console.log(`User ${auth.user.email} logged in`);
         return auth.user;
       })
     );

@@ -16,8 +16,8 @@
   <ion-title>Merci de vous connecter</ion-title>
   <form #loginForm="ngForm" (submit)="onSubmit(loginForm)">
     <ion-item>
-      <ion-label position="floating">Email</ion-label>
       <ion-input
+        label="Email"
         inputmode="email"
         #email="ngModel"
         required="true"
@@ -32,8 +32,8 @@
 
     <!-- Password input -->
     <ion-item>
-      <ion-label position="floating">Password</ion-label>
       <ion-input
+        label="Password"
         inputmode="text"
         #password="ngModel"
         required="true"
