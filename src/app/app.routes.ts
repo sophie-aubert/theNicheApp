@@ -11,7 +11,7 @@ export const routes: Routes =  [
       {
         // Route that loads the CreateTrip module
         path: "accueil",
-        //canActivate: [onlyAuthenticated],
+        canActivate: [onlyAuthenticated],
         loadComponent: () =>
           import("./layout/accueil/accueil.page").then(
             (m) => m.AccueilPage

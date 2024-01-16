@@ -1,11 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>ListeAchatVente</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logOut()">
+        <ion-icon name="logout"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <!-- Leave the previous content here -->
   <!-- Add the div below. The .ion-padding class adds some space around the content -->
-  <div class="ion-padding">Bienvenue sur la page de la liste des achats et ventes</div>
+  <div class="ion-padding">
+    Bienvenue sur la page de la liste des achats et ventes
+  </div>
 </ion-content>

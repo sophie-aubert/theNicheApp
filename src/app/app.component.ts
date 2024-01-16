@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Storage } from "@ionic/storage-angular";
+import { addIcons } from "ionicons";
+import { logOut } from "ionicons/icons";
 
 @Component({
   selector: 'app-root',
@@ -11,10 +11,11 @@ import { Storage } from "@ionic/storage-angular";
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-  constructor(private http: HttpClient, storage: Storage) {
-    this.http.get(environment.apiUrl + '/utilisateurs').subscribe((data) => {
-      console.log(data);
-      storage.create();
-    });
+  constructor(storage: Storage) {
+    storage.create();
+    addIcons({
+      logout: logOut 
+
+    })
   }
 }
