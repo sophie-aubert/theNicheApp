@@ -49,7 +49,17 @@
 
     <!-- Submit button -->
     <ion-button type="submit" expand="block" [disabled]="loginForm.invalid">
-      Log in
+      Se connecter
+    </ion-button>
+
+    <!-- On ajoute un bouton pour s'inscrire -->
+    <ion-button
+      onclick="window.location.href = '/inscription';"
+      expand="block"
+      fill="clear"
+      color="medium"
+    >
+      S'inscrire
     </ion-button>
 
     <!-- Error message displayed if the login failed -->
