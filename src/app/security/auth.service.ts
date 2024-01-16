@@ -6,6 +6,7 @@ import { User } from "./user.model";
 import { AuthRequest } from "./auth-request.model";
 import { Storage } from "@ionic/storage-angular";
 import { delayWhen } from "rxjs/operators";
+import { environment } from 'src/environments/environment';
 
 /***********************************************************/
 /*********!!! REPLACE BELOW WITH YOUR API URL !!! **********/
@@ -16,6 +17,7 @@ const API_URL = "https://thenicheapp.onrender.com/";
  * Authentication service for login/logout.
  */
 @Injectable({ providedIn: "root" })
+
 export class AuthService {
   #auth$: ReplaySubject<AuthResponse | null>;
 
@@ -67,7 +69,7 @@ export class AuthService {
    * @returns An `Observable` that will emit the logged in `User` object on success.
    */
   logIn$(authRequest: AuthRequest): Observable<User> {
-    const authUrl = `${API_URL}auth/login`;
+    const authUrl = `${environment.apiUrl}/auth/login`;
     return this.http.post<AuthResponse>(authUrl, authRequest).pipe(
       delayWhen((auth) => this.#saveAuth$(auth)),
       map((auth) => {

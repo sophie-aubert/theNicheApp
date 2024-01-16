@@ -5,6 +5,7 @@ import { IonicModule, ViewWillEnter } from '@ionic/angular';
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/security/auth.service";
 import { HttpClient } from "@angular/common/http";
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-accueil',
@@ -33,7 +34,7 @@ export class accueilListePage implements ViewWillEnter {
 
   ionViewWillEnter(): void {
     // Make an HTTP request to retrieve the trips.
-    const url = "https://thenicheapp.onrender.com/annonces";
+    const url = `${environment.apiUrl}/annonces`;
     this.http.get(url).subscribe((annonces) => {
       console.log('Annonces chargées :', annonces);
     });
