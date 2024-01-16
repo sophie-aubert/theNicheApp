@@ -1,9 +1,11 @@
 import { Injectable } from "@angular/core";
-import { Observable, ReplaySubject, filter, map } from "rxjs";
+import { Observable, ReplaySubject, filter, map, from} from "rxjs";
 import { AuthResponse } from "./auth-response.model";
 import { HttpClient } from "@angular/common/http";
 import { User } from "./user.model";
 import { AuthRequest } from "./auth-request.model";
+import { Storage } from "@ionic/storage-angular";
+import { delayWhen } from "rxjs/operators";
 
 /***********************************************************/
 /*********!!! REPLACE BELOW WITH YOUR API URL !!! **********/
@@ -15,12 +17,14 @@ const API_URL = "https://thenicheapp.onrender.com/";
  */
 @Injectable({ providedIn: "root" })
 export class AuthService {
-  #auth$: ReplaySubject<AuthResponse | undefined>;
+  #auth$: ReplaySubject<AuthResponse | null>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private readonly storage: Storage) {
     this.#auth$ = new ReplaySubject(1);
+    this.storage.get('auth').then((auth) => {
     // Emit an undefined value on startup for now
-    this.#auth$.next(undefined);
+    this.#auth$.next(auth);
+    });
   }
 
   /**
@@ -44,9 +48,16 @@ export class AuthService {
    * @returns An `Observable` that will emit the currently authenticated user's `token`, only if there
    * currently is an authenticated user.
    */
+
+  #saveAuth$(auth: AuthResponse): Observable<void> {
+    return from(this.storage.set("auth", auth));
+
+  }
+
   getToken$(): Observable<string | undefined> {
     return this.#auth$.pipe(map((auth) => auth?.token));
   }
+  
 
   /**
    * Sends an authentication request to the backend API in order to log in a user with the
@@ -58,19 +69,23 @@ export class AuthService {
   logIn$(authRequest: AuthRequest): Observable<User> {
     const authUrl = `${API_URL}auth/login`;
     return this.http.post<AuthResponse>(authUrl, authRequest).pipe(
+      delayWhen((auth) => this.#saveAuth$(auth)),
       map((auth) => {
         this.#auth$.next(auth);
-        //console.log(`User ${auth.user.email} logged in`);
+        //console.log(`User ${auth.user.username} logged in`);
         return auth.user;
       })
     );
   }
 
+
   /**
    * Logs out the current user.
    */
-  logOut(): void {
-    this.#auth$.next(undefined);
-    console.log("User logged out");
+  logOut() {
+    this.#auth$.next(null);
+    // Remove the stored authentication from storage when logging out.
+    this.storage.remove('auth');
+    console.log('User logged out');
   }
 }
