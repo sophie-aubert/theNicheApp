@@ -1,20 +1,80 @@
-<ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label position="stacked">Nom</ion-label>
-      <ion-input name="username" required></ion-input>
-    </ion-item>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Inscription</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-    <ion-item>
-      <ion-label position="stacked">Mail</ion-label>
-      <ion-input name="email" type="email" required></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="stacked">Mot de passe</ion-label>
-      <ion-input name="password" type="password" required></ion-input>
-    </ion-item>
-  </ion-list>
-
-  <ion-button expand="block">S'inscrire</ion-button>
+<ion-content [fullscreen]="true">
+  <!-- Leave the previous content here -->
+  <!-- Add the div below. The .ion-padding class adds some space around the content -->
+  <div class="ion-padding">Bienvenue sur la page d'inscription</div>
 </ion-content>
+<!-- inscription.page.html -->
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Inscription</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content>
+
+<div class="ion-padding">
+  <form #inscriptionForm="ngForm" (submit)="onSubmit(inscriptionForm)">
+    <!-- Nom input -->
+    <ion-item>
+      <ion-label position="floating">Nom utilisateur</ion-label>
+      <ion-input
+        inputmode="text"
+        #nom="ngModel"
+        required="true"
+        name="nom"
+        [(ngModel)]="inscriptionRequest.nom"
+      ></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="nom.invalid && nom.touched">
+      Le nom est requis.
+    </ion-text>
+
+    <!-- E-mail input -->
+    <ion-item>
+      <ion-label position="floating">E-mail</ion-label>
+      <ion-input
+        inputmode="email"
+        #email="ngModel"
+        required="true"
+        name="email"
+        [(ngModel)]="inscriptionRequest.email"
+      ></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="email.invalid && email.touched">
+      L'e-mail est requis.
+    </ion-text>
+
+    <!-- Mot de passe input -->
+    <ion-item>
+      <ion-label position="floating">Mot de passe</ion-label>
+      <ion-input
+        inputmode="text"
+        #password="ngModel"
+        required="true"
+        type="password"
+        name="password"
+        [(ngModel)]="inscriptionRequest.password"
+      ></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="password.invalid && password.touched">
+      Le mot de passe est requis.
+    </ion-text>
+
+    <!-- Bouton "S'inscrire" -->
+    <ion-button
+      type="submit"
+      expand="block"
+      [disabled]="inscriptionForm.invalid"
+    >
+      S'inscrire
+    </ion-button>
+      
+  </form>
+</div>
