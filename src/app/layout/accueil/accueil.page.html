@@ -14,7 +14,10 @@
   <div class="ion-padding">
     <!-- Affichez les annonces ici -->
     <ion-list *ngIf="annonces && annonces.length > 0">
-      <ion-item *ngFor="let annonce of annonces">
+      <ion-item
+        *ngFor="let annonce of annonces"
+        (click)="onAnnonceClick(annonce)"
+      >
         <ion-label>
           <h2>{{ annonce.titre }}</h2>
           <p>{{ annonce.description }}</p>
@@ -27,6 +30,14 @@
     <!-- Gérer le cas où il n'y a pas d'annonces -->
     <div *ngIf="!annonces || annonces.length === 0">
       Aucune annonce disponible pour le moment.
+    </div>
+
+    <!-- Afficher les détails de l'annonce sélectionnée -->
+    <div *ngIf="annonceSelectionnee">
+      <h2>{{ annonceSelectionnee.titre }}</h2>
+      <p>{{ annonceSelectionnee.description }}</p>
+      <p>Prix: {{ annonceSelectionnee.prix }}</p>
+      <p>Catégorie: {{ annonceSelectionnee.categorie }}</p>
     </div>
   </div>
 </ion-content>

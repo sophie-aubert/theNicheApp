@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 
 export class AccueilPage implements OnInit, ViewWillEnter {
   annonces: any[] = []; 
+  annonceSelectionnee: any; // Nouvelle propriété
 
   constructor(
     private auth: AuthService,
@@ -55,4 +56,14 @@ export class AccueilPage implements OnInit, ViewWillEnter {
     this.auth.logOut();
     this.router.navigateByUrl("/login");
   }
+
+
+  onAnnonceClick(annonce: any) {
+    console.log('Annonce cliquée :', annonce);
+    this.annonceSelectionnee = annonce;
+    // Ajoutez ici la navigation ou le traitement que vous souhaitez effectuer
+  }
+
+
+
 }
