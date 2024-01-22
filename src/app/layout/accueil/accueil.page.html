@@ -17,8 +17,9 @@
       <ion-item
         *ngFor="let annonce of annonces"
         (click)="onAnnonceClick(annonce)"
+        routerLink="/article/{{ annonce._id }}"
       >
-        <ion-label onclick="window.location.href = '/article';">
+        <ion-label>
           <h2>{{ annonce.titre }}</h2>
           <p>{{ annonce.description }}</p>
           <p>Prix: {{ annonce.prix }}</p>

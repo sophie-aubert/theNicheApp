@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ViewWillEnter } from '@ionic/angular';
-import { Router } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "src/app/security/auth.service";
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './accueil.page.html',
   styleUrls: ['./accueil.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule]
 })
 
 export class AccueilPage implements OnInit, ViewWillEnter {
@@ -58,10 +58,11 @@ export class AccueilPage implements OnInit, ViewWillEnter {
   }
 
 
-  // Nouvelle méthode pour gérer le clic sur une annonce
-  onAnnonceClick(annonce: any) {
+   // Nouvelle méthode pour gérer le clic sur une annonce
+   onAnnonceClick(annonce: any) {
     console.log('Annonce cliquée :', annonce);
     this.annonceSelectionnee = annonce;
-    this.router.navigateByUrl('./layout/article.page'); // Naviguer vers la nouvelle page
+    this.router.navigate(['/article', this.annonceSelectionnee.id]); // Passer l'ID lors de la navigation
   }
 }
+

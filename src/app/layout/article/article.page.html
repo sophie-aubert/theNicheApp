@@ -1,3 +1,4 @@
+<!-- article.page.html -->
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Article</ion-title>
@@ -5,7 +6,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Leave the previous content here -->
-  <!-- Add the div below. The .ion-padding class adds some space around the content -->
-  <div class="ion-padding">Bienvenue sur la page d'article</div>
+  <div class="ion-padding">
+    <!-- Affichez les détails de l'annonce ici -->
+    <h2>{{ annonceDetails.titre }}</h2>
+    <p>Annonce:{{ annonceDetails.description }}</p>
+    <p>Prix: {{ annonceDetails.prix }}</p>
+
+    <!-- Bouton "Ajouter au panier" -->
+    <ion-button expand="full" color="success" (click)="ajouterAuPanier()">
+      Ajouter au panier
+    </ion-button>
+  </div>
 </ion-content>

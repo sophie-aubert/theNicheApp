@@ -28,7 +28,7 @@ export const routes: Routes =  [
       },
       {
         // Route that loads the TripList module
-        path: "article",
+        path: "article/:id",
         loadComponent: () =>
           import("./layout/article/article.page").then(
             (m) => m.ArticlePage
