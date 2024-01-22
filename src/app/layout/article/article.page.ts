@@ -1,12 +1,12 @@
 // article.page.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/security/auth.service';
+import { PanierService } from './panier.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/security/auth.service';
-
 
 @Component({
   selector: 'app-article',
@@ -19,7 +19,15 @@ export class ArticlePage implements OnInit {
   annonceId: any;
   annonceDetails: any = {};
 
-  constructor(private route: ActivatedRoute,  private router: Router, private auth: AuthService) { }
+  // Ajoutez cette propriété pour récupérer les articles du panier
+  articlesInPanier: any[] = [];
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private auth: AuthService,
+    private panierService: PanierService
+  ) {}
 
   async loadAnnonceDetails() {
     try {
@@ -44,32 +52,39 @@ export class ArticlePage implements OnInit {
     this.route.paramMap.subscribe(async params => {
       this.annonceId = params.get('id');
       console.log('Annonce ID :', this.annonceId);
-
+  
       // Charger les détails de l'annonce
       await this.loadAnnonceDetails();
-
+  
       // Afficher les détails de l'annonce
       console.log('Annonce détails :', this.annonceDetails);
+  
+      // Récupérer les articles du panier
+      this.articlesInPanier = await this.panierService.getPanier();
     });
   }
+  
 
   ajouterAuPanier() {
-    // Implémentez ici le code pour ajouter l'annonce au panier
+    // Ajouter l'annonce au panier en utilisant le service
+    this.panierService.ajouterAuPanier(this.annonceDetails);
     console.log('Annonce ajoutée au panier :', this.annonceDetails);
-    // Ajoutez votre logique pour ajouter l'article au panier
+
+    // Naviguer vers la page du panier
     this.router.navigateByUrl('/panier');
   }
+
   logOut() {
-    console.log("logging out...");
+    console.log('logging out...');
     this.auth.logOut();
-    this.router.navigateByUrl("/login");
-    }
+    this.router.navigateByUrl('/login');
+  }
 
   panier() {
-    this.router.navigateByUrl("/panier");
-  }
-  profil() {
-    this.router.navigateByUrl("/donnees-perso");
+    this.router.navigateByUrl('/panier');
   }
 
+  profil() {
+    this.router.navigateByUrl('/donnees-perso');
+  }
 }

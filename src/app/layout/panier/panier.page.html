@@ -15,7 +15,14 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
-  <!-- Leave the previous content here -->
-  <!-- Add the div below. The .ion-padding class adds some space around the content -->
-  <div class="ion-padding">Bienvenue sur la page du panier</div>
+  <!-- Utilisez une ion-list pour afficher les articles -->
+  <ion-list *ngIf="articlesInPanier.length > 0">
+    <ion-item *ngFor="let article of articlesInPanier">
+      {{ article.titre }} - {{ article.prix }}
+    </ion-item>
+  </ion-list>
+  <!-- Ajoutez un message si le panier est vide -->
+  <div *ngIf="articlesInPanier.length === 0" class="ion-padding">
+    Votre panier est vide.
+  </div>
 </ion-content>

@@ -45,10 +45,6 @@ export class LoginPage {
     // Hide any previous login error.
     this.loginError = false;
 
-    // Perform the authentication request to the API.
-    // NOTE: Since our form is valid, it means that "this.authRequest" is actually
-    // a perfectly valid "AuthRequest" object, and that's what we are telling TypeScript
-    // here with "as AuthRequest".
     this.auth.logIn$(this.authRequest as AuthRequest).subscribe({
       next: () => this.router.navigateByUrl("/"),
       error: (err) => {

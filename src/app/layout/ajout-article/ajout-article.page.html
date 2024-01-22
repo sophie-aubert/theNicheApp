@@ -1,22 +1,80 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Ajouter un article</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="profil()">
-        <ion-icon name="profil"></ion-icon>
-      </ion-button>
-      <ion-button (click)="panier()">
-        <ion-icon name="panier"></ion-icon>
-      </ion-button>
-      <ion-button (click)="logOut()">
-        <ion-icon name="logout"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-title> Ajout d'article </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!-- Leave the previous content here -->
-  <!-- Add the div below. The .ion-padding class adds some space around the content -->
-  <div class="ion-padding">Bienvenue sur la page d'ajout d'un article</div>
+<ion-content>
+  <form (ngSubmit)="ajouterArticle()">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Titre</ion-label>
+        <ion-input
+          type="text"
+          [(ngModel)]="nouvelArticle.titre"
+          name="titre"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Description</ion-label>
+        <ion-textarea
+          [(ngModel)]="nouvelArticle.description"
+          name="description"
+          required
+        ></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Prix</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="nouvelArticle.prix"
+          name="prix"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Catégorie</ion-label>
+        <ion-input
+          type="text"
+          [(ngModel)]="nouvelArticle.categorie"
+          name="categorie"
+          required
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Longitude</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="nouvelArticle.longitude"
+          name="longitude"
+          required
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Latitude</ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="nouvelArticle.latitude"
+          name="latitude"
+          required
+        ></ion-input>
+      </ion-item>
+
+      <!-- <ion-item>
+        <ion-label position="stacked">Image</ion-label>
+        <ion-input
+          type="file"
+          [(ngModel)]="nouvelArticle.image"
+          name="image"
+          required
+        ></ion-input>
+      </ion-item> -->
+    </ion-list>
+
+    <ion-button type="submit" expand="block">Ajouter</ion-button>
+  </form>
 </ion-content>
