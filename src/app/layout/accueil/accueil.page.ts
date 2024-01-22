@@ -7,6 +7,7 @@ import { AuthService } from "src/app/security/auth.service";
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
 
+
 @Component({
   selector: 'app-accueil',
   templateUrl: './accueil.page.html',
@@ -15,28 +16,43 @@ import { environment } from 'src/environments/environment';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 
-export class AccueilPage implements OnInit {
-constructor(
-  private auth: AuthService,
-  private router: Router
-  ) {}
+export class AccueilPage implements OnInit, ViewWillEnter {
+  annonces: any[] = []; 
+
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private readonly http: HttpClient
+  ) {}
+
   ngOnInit() {
+    // Chargement initial des annonces
+    this.loadAnnonces();
   }
+
+  ionViewWillEnter(): void {
+    // Chargement des annonces à chaque entrée dans la vue
+    this.loadAnnonces();
+  }
+
+  loadAnnonces() {
+    const url = `${environment.apiUrl}/annonces`;
+
+    this.http.get<any[]>(url).subscribe(
+      (annonces: any[]) => {
+        this.annonces = annonces;
+        console.log('Annonces chargées :', this.annonces);
+      },
+      (error: any) => {
+        console.error('Erreur lors du chargement des annonces', error);
+        // Gérer les erreurs de chargement des annonces ici.
+      }
+    );
+  }
+
   logOut() {
     console.log("logging out...");
     this.auth.logOut();
     this.router.navigateByUrl("/login");
-    }
-}
-
-export class accueilListePage implements ViewWillEnter {
-  constructor(private readonly http: HttpClient) {}
-
-  ionViewWillEnter(): void {
-    // Make an HTTP request to retrieve the trips.
-    const url = `${environment.apiUrl}/annonces`;
-    this.http.get(url).subscribe((annonces) => {
-      console.log('Annonces chargées :', annonces);
-    });
-  }
+  }
 }

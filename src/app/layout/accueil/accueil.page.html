@@ -11,7 +11,22 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Leave the previous content here -->
-  <!-- Add the div below. The .ion-padding class adds some space around the content -->
-  <div class="ion-padding">Bienvenue dans l'Accueil</div>
+  <div class="ion-padding">
+    <!-- Affichez les annonces ici -->
+    <ion-list *ngIf="annonces && annonces.length > 0">
+      <ion-item *ngFor="let annonce of annonces">
+        <ion-label>
+          <h2>{{ annonce.titre }}</h2>
+          <p>{{ annonce.description }}</p>
+          <p>Prix: {{ annonce.prix }}</p>
+          <p>Catégorie: {{ annonce.categorie }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <!-- Gérer le cas où il n'y a pas d'annonces -->
+    <div *ngIf="!annonces || annonces.length === 0">
+      Aucune annonce disponible pour le moment.
+    </div>
+  </div>
 </ion-content>
