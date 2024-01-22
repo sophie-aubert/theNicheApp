@@ -30,5 +30,13 @@ export class AjoutArticlePage implements OnInit {
     this.auth.logOut();
     this.router.navigateByUrl("/login");
     }
+
+  panier() {
+    this.router.navigateByUrl("/panier");
+  }
+  profil() {
+    this.router.navigateByUrl("/donnees-perso");
+  }
+
 }
 

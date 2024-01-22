@@ -57,6 +57,14 @@ export class AccueilPage implements OnInit, ViewWillEnter {
     this.router.navigateByUrl("/login");
   }
 
+  // Nouvelle méthode pour gérer le clic sur le bouton "Panier"
+  panier() {
+    this.router.navigateByUrl("/panier");
+  }
+  profil() {
+    this.router.navigateByUrl("/donnees-perso");
+  }
+
 
    // Nouvelle méthode pour gérer le clic sur une annonce
    onAnnonceClick(annonce: any) {

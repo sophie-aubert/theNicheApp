@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/security/auth.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class ArticlePage implements OnInit {
   annonceId: any;
   annonceDetails: any = {};
 
-  constructor(private route: ActivatedRoute,  private router: Router) {}
+  constructor(private route: ActivatedRoute,  private router: Router, private auth: AuthService) { }
 
   async loadAnnonceDetails() {
     try {
@@ -58,4 +59,17 @@ export class ArticlePage implements OnInit {
     // Ajoutez votre logique pour ajouter l'article au panier
     this.router.navigateByUrl('/panier');
   }
+  logOut() {
+    console.log("logging out...");
+    this.auth.logOut();
+    this.router.navigateByUrl("/login");
+    }
+
+  panier() {
+    this.router.navigateByUrl("/panier");
+  }
+  profil() {
+    this.router.navigateByUrl("/donnees-perso");
+  }
+
 }
