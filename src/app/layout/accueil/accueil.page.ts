@@ -58,12 +58,10 @@ export class AccueilPage implements OnInit, ViewWillEnter {
   }
 
 
+  // Nouvelle méthode pour gérer le clic sur une annonce
   onAnnonceClick(annonce: any) {
     console.log('Annonce cliquée :', annonce);
     this.annonceSelectionnee = annonce;
-    // Ajoutez ici la navigation ou le traitement que vous souhaitez effectuer
+    this.router.navigateByUrl('./layout/article.page'); // Naviguer vers la nouvelle page
   }
-
-
-
 }
