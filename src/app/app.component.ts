@@ -5,13 +5,14 @@ import { addIcons } from "ionicons";
 import { logOut } from "ionicons/icons";
 import { basketOutline } from "ionicons/icons";
 import { personOutline } from 'ionicons/icons';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
-  imports: [IonApp, IonRouterOutlet],
+  imports: [IonApp, IonRouterOutlet, LeafletModule],
 })
 export class AppComponent {
   constructor(storage: Storage) {

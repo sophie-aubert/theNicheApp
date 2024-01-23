@@ -18,33 +18,25 @@
 
 <ion-content [fullscreen]="true">
   <div class="ion-padding">
-    <ion-button id="open-modal" expand="block">Open</ion-button>
-    <p>{{ message }}</p>
+    <ion-button id="open-modal" expand="block">Ouvrir la carte</ion-button>
     <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
       <ng-template>
         <ion-header>
           <ion-toolbar>
+            <ion-title>Voici les annonces</ion-title>
             <ion-buttons slot="start">
-              <ion-button (click)="cancel()">Cancel</ion-button>
-            </ion-buttons>
-            <ion-title>Welcome</ion-title>
-            <ion-buttons slot="end">
-              <ion-button (click)="confirm()" [strong]="true"
-                >Confirm</ion-button
-              >
+              <ion-button (click)="cancel()">Fermer</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
-          <ion-item>
-            <ion-input
-              label="Enter your name"
-              labelPlacement="stacked"
-              type="text"
-              placeholder="Your name"
-              [(ngModel)]="name"
-            ></ion-input>
-          </ion-item>
+          <div
+            class="map"
+            leaflet
+            [leafletOptions]="mapOptions"
+            (leafletMapReady)="onMapReady($event)"
+            [leafletLayers]="mapMarkers"
+          ></div>
         </ion-content>
       </ng-template>
     </ion-modal>
