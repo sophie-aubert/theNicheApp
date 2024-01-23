@@ -8,9 +8,9 @@ import { Storage } from "@ionic/storage-angular";
 import { delayWhen } from "rxjs/operators";
 import { environment } from 'src/environments/environment';
 
-/***********************************************************/
-/*********!!! REPLACE BELOW WITH YOUR API URL !!! **********/
-/***********************************************************/
+/*********************/
+/***!!! REPLACE BELOW WITH YOUR API URL !!! ****/
+/*********************/
 const API_URL = "https://thenicheapp.onrender.com/";
 
 /**
@@ -30,24 +30,24 @@ export class AuthService {
   }
 
   /**
-   * @returns An `Observable` that will emit a `boolean` value
+   * @returns An Observable that will emit a boolean value
    * indicating whether the current user is authenticated.
-   * This `Observable` will never complete and must be unsubscribed for when not needed.
+   * This Observable will never complete and must be unsubscribed for when not needed.
    */
   isAuthenticated$(): Observable<boolean> {
     return this.#auth$.pipe(map((auth) => Boolean(auth)));
   }
 
   /**
-   * @returns An `Observable` that will emit the currently authenticated `User` object only if there
+   * @returns An Observable that will emit the currently authenticated User object only if there
    * currently is an authenticated user.
    */
   getUser$(): Observable<User | undefined> {
-    return this.#auth$.pipe(map((auth) => auth?.user));
+    return this.#auth$.pipe(map((auth) => auth?.userInfos));
   }
 
   /**
-   * @returns An `Observable` that will emit the currently authenticated user's `token`, only if there
+   * @returns An Observable that will emit the currently authenticated user's token, only if there
    * currently is an authenticated user.
    */
 
@@ -63,10 +63,10 @@ export class AuthService {
 
   /**
    * Sends an authentication request to the backend API in order to log in a user with the
-   * provided `authRequest` object.
+   * provided authRequest object.
    *
    * @param authRequest An object containing the authentication request params
-   * @returns An `Observable` that will emit the logged in `User` object on success.
+   * @returns An Observable that will emit the logged in User object on success.
    */
   logIn$(authRequest: AuthRequest): Observable<User> {
     const authUrl = `${environment.apiUrl}/auth/login`;
@@ -74,8 +74,8 @@ export class AuthService {
       delayWhen((auth) => this.#saveAuth$(auth)),
       map((auth) => {
         this.#auth$.next(auth);
-        //console.log(`User ${auth.user.username} logged in`);
-        return auth.user;
+        //console.log(User ${auth.user.username} logged in);
+        return auth.userInfos;
       })
     );
   }

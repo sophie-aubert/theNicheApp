@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/security/auth.service";
+import { User } from 'src/app/security/user.model';
 
 @Component({
   selector: 'app-donnees-perso',
@@ -14,9 +15,12 @@ import { AuthService } from "src/app/security/auth.service";
 })
 export class DonneesPersoPage implements OnInit {
 
+  user: User | undefined;
+
   constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
+    this.auth.getUser$().subscribe(user => this.user = user);
   }
   logOut() {
     console.log("logging out...");

@@ -9,6 +9,9 @@ import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 import { IonicStorageModule } from "@ionic/storage-angular";
 import { authInterceptor } from './app/security/auth.interceptor';
+import { defineCustomElements } from "@ionic/pwa-elements/loader";
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { PictureService } from './app/picture/picture.service';
 
 if (environment.production) {
   enableProdMode();
@@ -23,5 +26,11 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(), 
     importProvidersFrom(IonicStorageModule.forRoot()),
     provideHttpClient(withInterceptors([authInterceptor])),
+    PictureService
   ],
 });
+
+platformBrowserDynamic()
+  .bootstrapModule(AppComponent)
+  .then(() => defineCustomElements(window)) // Add this line
+  .catch((err) => console.log(err));

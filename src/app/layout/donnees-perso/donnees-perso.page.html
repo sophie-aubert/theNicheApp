@@ -1,22 +1,53 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Mon profil</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="profil()">
-        <ion-icon name="profil"></ion-icon>
-      </ion-button>
-      <ion-button (click)="panier()">
-        <ion-icon name="panier"></ion-icon>
-      </ion-button>
-      <ion-button (click)="logOut()">
-        <ion-icon name="logout"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-title>Mon Profil</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!-- Leave the previous content here -->
-  <!-- Add the div below. The .ion-padding class adds some space around the content -->
-  <div class="ion-padding">Bienvenue sur la page des données personnelles</div>
+<ion-content>
+  <div class="ion-padding">
+    <ion-title>Bienvenue sur la page des données personnelles</ion-title>
+  </div>
+
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Prénom</ion-label>
+      <ion-text>{{ user?.prenom }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Nom</ion-label>
+      <ion-text>{{ user?.nom }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Nom d'utilisateur</ion-label>
+      <ion-text>{{ user?.username }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">E-mail</ion-label>
+      <ion-text>{{ user?.email }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Mot de passe</ion-label>
+      <ion-text>{{ user?.password }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">NPA</ion-label>
+      <ion-text>{{ user?.npa }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Ville</ion-label>
+      <ion-text>{{ user?.ville }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Adresse</ion-label>
+      <ion-text>{{ user?.adresse }}</ion-text>
+    </ion-item>
+  </ion-list>
 </ion-content>

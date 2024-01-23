@@ -52,24 +52,23 @@
           </ion-select-option>
         </ion-select>
       </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Saisissez la ville</ion-label>
+        <ion-input
+          [(ngModel)]="nouvelArticle.localisation"
+          (ionInput)="searchCity($event.target.value)"
+        ></ion-input>
 
-      <ion-item>
-        <ion-label position="stacked">Longitude</ion-label>
-        <ion-input
-          type="number"
-          [(ngModel)]="nouvelArticle.longitude"
-          name="longitude"
-          required
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Latitude</ion-label>
-        <ion-input
-          type="number"
-          [(ngModel)]="nouvelArticle.latitude"
-          name="latitude"
-          required
-        ></ion-input>
+        <div *ngIf="suggestions.length > 0">
+          <ion-list>
+            <ion-item
+              *ngFor="let suggestion of suggestions"
+              (click)="selectCity(suggestion)"
+            >
+              {{ suggestion.display_name }}
+            </ion-item>
+          </ion-list>
+        </div>
       </ion-item>
 
       <!-- Ajoutez des messages d'erreur si nécessaire -->
@@ -79,7 +78,9 @@
 
       <!-- Ajoutez des messages d'erreur pour les autres champs si nécessaire -->
     </ion-list>
-
+    
+    <ion-button (click)="takePicture()">Take picture</ion-button>
+    <img *ngIf="picture" [src]="picture.url" />
     <ion-button
       type="submit"
       expand="block"
