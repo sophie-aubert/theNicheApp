@@ -57,6 +57,7 @@
         <ion-input
           [(ngModel)]="nouvelArticle.localisation"
           (ionInput)="searchCity($event.target.value)"
+          name="localisation"
         ></ion-input>
 
         <div *ngIf="suggestions.length > 0">
@@ -72,20 +73,27 @@
       </ion-item>
 
       <!-- Ajoutez des messages d'erreur si nécessaire -->
-      <ion-item *ngIf="ajoutArticleForm.controls['titre'].hasError('required')">
+      <ion-item *ngIf="ajoutArticleForm.controls['titre']?.hasError('required')">
         <ion-text color="danger">Le titre est requis.</ion-text>
       </ion-item>
 
       <!-- Ajoutez des messages d'erreur pour les autres champs si nécessaire -->
     </ion-list>
     
-    <ion-button (click)="takePicture()">Take picture</ion-button>
-    <img *ngIf="picture" [src]="picture.url" />
+    <ion-item>
+      <ion-label position="stacked">Photo</ion-label>
+      <ion-button (click)="takePicture()">Prendre une photo</ion-button>
+      <div  *ngIf="nouvelArticle.image " class="image-container">
+        <img [src]="nouvelArticle.image" />
+      </div>
+    </ion-item>
+       
     <ion-button
       type="submit"
       expand="block"
       [disabled]="!ajoutArticleForm.valid"
-      >Ajouter</ion-button
     >
+      Ajouter
+    </ion-button>
   </form>
 </ion-content>

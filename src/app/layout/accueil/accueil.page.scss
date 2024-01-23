@@ -1,3 +1,8 @@
 .map {
   height: 100%
 }
+
+.image-container {
+  max-width: 300px; /* Vous pouvez ajuster cette valeur selon vos besoins */
+  margin: 0 auto; /* Centre l'image container sur la page */
+}

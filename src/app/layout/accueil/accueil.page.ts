@@ -32,9 +32,13 @@ import { marker, Marker } from 'leaflet';
 })
 export class AccueilPage implements OnInit, ViewWillEnter {
   annonces: any[] = [];
+  page = 1;
+  limit = 100;
+  totalPages = 10;
   annonceSelectionnee: any; // Nouvelle propriété
   mapOptions: MapOptions;
   mapMarkers: Marker[];
+
 
   constructor(
     private auth: AuthService,
@@ -72,6 +76,26 @@ export class AccueilPage implements OnInit, ViewWillEnter {
     }, 200);
   }
 
+
+  ///////LOAD ANNONCES ET PREVIOUS ET NEXT/////////////////////////
+
+  loadAnnonces() {
+    const url = `${environment.apiUrl}/annonces?page=${this.page}&limit=${this.limit}`;
+
+    this.http.get<any[]>(url).subscribe(
+      (annonces: any[]) => {
+        // Ajouter les annonces chargées au tableau des annonces
+        this.annonces = [...this.annonces, ...annonces];
+        this.totalPages = Math.ceil(annonces.length / this.limit);
+
+        console.log('Annonces chargées :', this.annonces);
+      },
+      (error: any) => {
+        console.error('Erreur lors du chargement des annonces', error);
+        // Gérer les erreurs de chargement des annonces ici.
+      }
+    );
+  }
   ngOnInit() {
     // Chargement initial des annonces
     this.loadAnnonces();
@@ -82,20 +106,7 @@ export class AccueilPage implements OnInit, ViewWillEnter {
     this.loadAnnonces();
   }
 
-  loadAnnonces() {
-    const url = `${environment.apiUrl}/annonces`;
 
-    this.http.get<any[]>(url).subscribe(
-      (annonces: any[]) => {
-        this.annonces = annonces;
-        console.log('Annonces chargées :', this.annonces);
-      },
-      (error: any) => {
-        console.error('Erreur lors du chargement des annonces', error);
-        // Gérer les erreurs de chargement des annonces ici.
-      }
-    );
-  }
 
   logOut() {
     console.log('logging out...');

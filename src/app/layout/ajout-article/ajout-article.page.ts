@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { Router } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "src/app/security/auth.service";
 import { NavController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
@@ -16,14 +16,23 @@ import { PictureService } from 'src/app/picture/picture.service';
   templateUrl: './ajout-article.page.html',
   styleUrls: ['./ajout-article.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
 
 export class AjoutArticlePage implements OnInit {
-  nouvelArticle: any = {}; 
+  
+  //définir les proprités du nouvel article 
+  nouvelArticle: any = {
+    titre: '',
+    description: '',
+    prix: '',
+    categorie: '',
+    localisation: '',
+    image: '',
+  };
   suggestions: any[] = [];
 
-  picture: QimgImage | undefined;
+ 
  
 
     // Assurez-vous que cette propriété est correctement déclarée
@@ -39,7 +48,6 @@ export class AjoutArticlePage implements OnInit {
     ];
 
   constructor(
-    private navCtrl: NavController,
     private http: HttpClient,
     private router: Router,
     private auth: AuthService,
@@ -60,12 +68,10 @@ export class AjoutArticlePage implements OnInit {
           console.log('Résultats de la recherche:', response);
   
           if (response.length > 0) {
-            const firstResult = response[0];
             this.suggestions = response;
   
             // Stockez la latitude et la longitude dans nouvelArticle
-            this.nouvelArticle.longitude = firstResult.lon;
-            this.nouvelArticle.latitude = firstResult.lat;
+
           }
         },
         (error: any) => {
@@ -77,6 +83,8 @@ export class AjoutArticlePage implements OnInit {
   
 
   selectCity(city: any): void {
+    this.nouvelArticle.longitude = city.lon;
+    this.nouvelArticle.latitude = city.lat;
     this.nouvelArticle.localisation = city.display_name;
     this.suggestions = []; // Clear the suggestion list
   }
@@ -102,7 +110,7 @@ export class AjoutArticlePage implements OnInit {
   async takePicture() {
     try {
       const image = await this.pictureService.takeAndUploadPicture().toPromise();
-      this.picture = image;
+      this.nouvelArticle.image = image?.url;
     } catch (error) {
       console.error('Erreur lors de la prise de la photo :', error);
     }
@@ -138,8 +146,7 @@ export class AjoutArticlePage implements OnInit {
         (response: any) => {
           console.log('Nouvel article ajouté avec succès!', response);
           this.nouvelArticle = {};
-          this.navCtrl.navigateBack('/accueil');
-          location.reload();
+          this.router.navigateByUrl('/accueil');
         },
         (error: any) => {
           console.error('Erreur lors de l\'ajout de l\'article', error);

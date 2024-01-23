@@ -52,6 +52,9 @@
           <p>{{ annonce.description }}</p>
           <p>Prix: {{ annonce.prix }}</p>
           <p>Catégorie: {{ annonce.categorie }}</p>
+          <img [src]="annonce.image" class="image-container" />
+        
+          
         </ion-label>
       </ion-item>
     </ion-list>
