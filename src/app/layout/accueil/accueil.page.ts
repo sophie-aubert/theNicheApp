@@ -6,7 +6,11 @@ import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "src/app/security/auth.service";
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
-
+import { Geolocation } from '@capacitor/geolocation';
+import { ToastController } from '@ionic/angular';
+import { IonModal } from '@ionic/angular';
+import { ViewChild } from '@angular/core';
+import { OverlayEventDetail } from '@ionic/core/components';
 
 @Component({
   selector: 'app-accueil',
@@ -20,11 +24,18 @@ export class AccueilPage implements OnInit, ViewWillEnter {
   annonces: any[] = []; 
   annonceSelectionnee: any; // Nouvelle propriété
 
+
   constructor(
     private auth: AuthService,
     private router: Router,
-    private readonly http: HttpClient
-  ) {}
+    private readonly http: HttpClient,
+    private toastController: ToastController
+  )  {
+    // Initialisation de 'modal'
+    this.modal = {} as IonModal;
+    // Initialisation de 'name'
+    this.name = '';
+  }
 
   ngOnInit() {
     // Chargement initial des annonces
@@ -72,5 +83,81 @@ export class AccueilPage implements OnInit, ViewWillEnter {
     this.annonceSelectionnee = annonce;
     this.router.navigate(['/article', this.annonceSelectionnee.id]); // Passer l'ID lors de la navigation
   }
+
+////////////////////////////AFFICHER MODAL//////////////////////////////////////
+
+@ViewChild(IonModal) modal: IonModal;
+
+
+message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
+name : string;
+
+cancel() {
+  this.modal.dismiss(null, 'cancel');
 }
 
+confirm() {
+  this.modal.dismiss(this.name, 'confirm');
+}
+
+onWillDismiss(event: Event) {
+  const ev = event as CustomEvent<OverlayEventDetail<string>>;
+  if (ev.detail.role === 'confirm') {
+  this.message = `Hello, ${ev.detail.data}!`;
+  }
+}
+
+
+
+
+
+
+//////////////////////////////GEOLOCALISATION//////////////////////////////////////
+  async getCurrentLocation() {
+    const coordinates = await Geolocation.getCurrentPosition();
+    return coordinates.coords;
+  }
+
+  async afficherCarteAvecAnnonces() {
+    try {
+      const location = await this.getCurrentLocation();
+      const annoncesAvecDistance = this.calculerDistancePourAnnonces(location);
+
+      // Utilisez les données pour afficher la carte ou effectuer d'autres actions
+      console.log('Annonces avec distance:', annoncesAvecDistance);
+
+      // Affichez un message à l'utilisateur
+      const toast = await this.toastController.create({
+        message: 'Carte affichée avec les annonces et distances',
+        duration: 2000
+      });
+      toast.present();
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la position actuelle', error);
+    }
+  }
+
+  calculerDistancePourAnnonces(location: any) {
+    // Implémentez la logique pour calculer la distance pour chaque annonce
+    // Vous pouvez utiliser la formule Haversine ou d'autres méthodes de calcul de distance
+    // Ensuite, ajoutez la distance aux données de l'annonce
+    const annoncesAvecDistance = this.annonces.map(annonce => {
+      const distance = this.calculerDistanceEntreDeuxPoints(
+        location.latitude,
+        location.longitude,
+        annonce.latitude, // Remplacez par la propriété réelle de latitude de votre annonce
+        annonce.longitude // Remplacez par la propriété réelle de longitude de votre annonce
+      );
+
+      return { ...annonce, distance };
+    });
+
+    return annoncesAvecDistance;
+  }
+
+  calculerDistanceEntreDeuxPoints(lat1: number, lon1: number, lat2: number, lon2: number) {
+    // Implémentez la formule Haversine ou utilisez des bibliothèques comme haversine-distance
+    // pour calculer la distance entre deux points géographiques
+    // Retournez la distance calculée
+  }
+}

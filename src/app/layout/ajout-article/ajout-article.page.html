@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title> Ajout d'article </ion-title>
+    <ion-title>Ajout d'article</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form (ngSubmit)="ajouterArticle()">
+  <form #ajoutArticleForm="ngForm" (ngSubmit)="ajouterArticle()">
     <ion-list>
       <ion-item>
         <ion-label position="stacked">Titre</ion-label>
@@ -38,13 +38,21 @@
 
       <ion-item>
         <ion-label position="stacked">Catégorie</ion-label>
-        <ion-input
-          type="text"
+        <ion-select
           [(ngModel)]="nouvelArticle.categorie"
           name="categorie"
           required
-        ></ion-input>
+        >
+          <!-- Liste des catégories -->
+          <ion-select-option
+            *ngFor="let categorie of categories"
+            [value]="categorie"
+          >
+            {{ categorie }}
+          </ion-select-option>
+        </ion-select>
       </ion-item>
+
       <ion-item>
         <ion-label position="stacked">Longitude</ion-label>
         <ion-input
@@ -64,17 +72,19 @@
         ></ion-input>
       </ion-item>
 
-      <!-- <ion-item>
-        <ion-label position="stacked">Image</ion-label>
-        <ion-input
-          type="file"
-          [(ngModel)]="nouvelArticle.image"
-          name="image"
-          required
-        ></ion-input>
-      </ion-item> -->
+      <!-- Ajoutez des messages d'erreur si nécessaire -->
+      <ion-item *ngIf="ajoutArticleForm.controls['titre'].hasError('required')">
+        <ion-text color="danger">Le titre est requis.</ion-text>
+      </ion-item>
+
+      <!-- Ajoutez des messages d'erreur pour les autres champs si nécessaire -->
     </ion-list>
 
-    <ion-button type="submit" expand="block">Ajouter</ion-button>
+    <ion-button
+      type="submit"
+      expand="block"
+      [disabled]="!ajoutArticleForm.valid"
+      >Ajouter</ion-button
+    >
   </form>
 </ion-content>
