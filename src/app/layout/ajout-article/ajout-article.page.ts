@@ -13,12 +13,24 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './ajout-article.page.html',
   styleUrls: ['./ajout-article.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule],
 })
 export class AjoutArticlePage implements OnInit {
   nouvelArticle: any = {
 
   }; 
+
+    // Assurez-vous que cette propriété est correctement déclarée
+    categories: string[] = [
+      "Chaussures",
+      "Pantalons",
+      "Chemises",
+      "Pulls",
+      "Vestes",
+      "Manteaux",
+      "Accessoires",
+      "T-shirts"
+    ];
 
   constructor(
     private navCtrl: NavController,
@@ -68,6 +80,7 @@ export class AjoutArticlePage implements OnInit {
           console.log('Nouvel article ajouté avec succès!', response);
           this.nouvelArticle = {};
           this.navCtrl.navigateBack('/accueil');
+          location.reload();
         },
         (error: any) => {
           console.error('Erreur lors de l\'ajout de l\'article', error);
