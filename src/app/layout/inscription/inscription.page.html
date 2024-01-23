@@ -8,18 +8,47 @@
   <div class="ion-padding">
     <form #inscriptionForm="ngForm" (submit)="onSubmit(inscriptionForm)">
       <!-- Nom utilisateur input -->
+
       <ion-item>
-        <ion-label position="floating">Nom utilisateur</ion-label>
+        <ion-label position="floating">Nom :</ion-label>
         <ion-input
           inputmode="text"
           #nom="ngModel"
           required
           name="nom"
-          [(ngModel)]="inscriptionRequest.username"
+          [(ngModel)]="inscriptionRequest.nom"
         ></ion-input>
       </ion-item>
       <ion-text color="danger" *ngIf="nom.invalid && nom.touched">
         Le nom est requis.
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Prénom :</ion-label>
+        <ion-input
+          inputmode="text"
+          #prenom="ngModel"
+          required
+          name="prenom"
+          [(ngModel)]="inscriptionRequest.prenom"
+        ></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="prenom.invalid && prenom.touched">
+        Le prenom est requis.
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Username :</ion-label>
+        <ion-input
+          inputmode="text"
+          #username="ngModel"
+          required
+          name="username"
+          [(ngModel)]="inscriptionRequest.username"
+        ></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="username.invalid && username.touched">
+        Username requis.
       </ion-text>
 
       <!-- E-mail input -->
@@ -35,6 +64,48 @@
       </ion-item>
       <ion-text color="danger" *ngIf="email.invalid && email.touched">
         L'e-mail est requis.
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Ville :</ion-label>
+        <ion-input
+          inputmode="text"
+          #ville="ngModel"
+          required
+          name="ville"
+          [(ngModel)]="inscriptionRequest.ville"
+        ></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="ville.invalid && ville.touched">
+        La ville est requis.
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Adresse :</ion-label>
+        <ion-input
+          inputmode="text"
+          #adresse="ngModel"
+          required
+          name="adresse"
+          [(ngModel)]="inscriptionRequest.adresse"
+        ></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="adresse.invalid && adresse.touched">
+        L'adresse est requise.
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="floating">Code postal :</ion-label>
+        <ion-input
+          inputmode="number"
+          #npa="ngModel"
+          required
+          name="npa"
+          [(ngModel)]="inscriptionRequest.npa"
+        ></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="npa.invalid && npa.touched">
+        Le code postal est requise.
       </ion-text>
 
       <!-- Mot de passe input -->

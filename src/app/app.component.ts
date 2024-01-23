@@ -20,7 +20,7 @@ export class AppComponent {
       logout: logOut,
       panier: basketOutline,
       profil: personOutline
-
     })
   }
+
 }
