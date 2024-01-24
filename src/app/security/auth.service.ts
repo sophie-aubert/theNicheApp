@@ -1,31 +1,30 @@
-import { Injectable } from "@angular/core";
-import { Observable, ReplaySubject, filter, map, from} from "rxjs";
-import { AuthResponse } from "./auth-response.model";
-import { HttpClient } from "@angular/common/http";
-import { User } from "./user.model";
-import { AuthRequest } from "./auth-request.model";
-import { Storage } from "@ionic/storage-angular";
-import { delayWhen } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { Observable, ReplaySubject, filter, map, from } from 'rxjs';
+import { AuthResponse } from './auth-response.model';
+import { HttpClient } from '@angular/common/http';
+import { User } from './user.model';
+import { AuthRequest } from './auth-request.model';
+import { Storage } from '@ionic/storage-angular';
+import { delayWhen } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
-/*********************/
-/***!!! REPLACE BELOW WITH YOUR API URL !!! ****/
-/*********************/
-const API_URL = "https://thenicheapp.onrender.com/";
+/*******/
+/*!!! REPLACE BELOW WITH YOUR API URL !!! **/
+/*******/
+const API_URL = 'https://thenicheapp.onrender.com/';
 
 /**
  * Authentication service for login/logout.
  */
-@Injectable({ providedIn: "root" })
-
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   #auth$: ReplaySubject<AuthResponse | null>;
 
   constructor(private http: HttpClient, private readonly storage: Storage) {
     this.#auth$ = new ReplaySubject(1);
-    this.storage.get('auth').then((auth) => {
-    // Emit an undefined value on startup for now
-    this.#auth$.next(auth);
+    this.storage.get('auth').then((auth) => {
+      // Emit an undefined value on startup for now
+      this.#auth$.next(auth);
     });
   }
 
@@ -52,14 +51,12 @@ export class AuthService {
    */
 
   #saveAuth$(auth: AuthResponse): Observable<void> {
-    return from(this.storage.set("auth", auth));
-
+    return from(this.storage.set('auth', auth));
   }
 
   getToken$(): Observable<string | undefined> {
     return this.#auth$.pipe(map((auth) => auth?.token));
   }
-  
 
   /**
    * Sends an authentication request to the backend API in order to log in a user with the
@@ -80,7 +77,6 @@ export class AuthService {
     );
   }
 
-
   /**
    * Logs out the current user.
    */
@@ -89,5 +85,39 @@ export class AuthService {
     // Remove the stored authentication from storage when logging out.
     this.storage.remove('auth');
     console.log('User logged out');
+  }
+
+  updateProfil$(authRequest: AuthRequest, headers: any): Observable<User> {
+    console.log('authRequest OK : ', authRequest);
+    console.log('authRequest.id OK : ', authRequest.id);
+
+    const authUrl = `${environment.apiUrl}/utilisateurs/${authRequest.id}`;
+
+    const options = { headers };
+
+    return this.http.put<AuthResponse>(authUrl, authRequest, options).pipe(
+      delayWhen((auth) => this.#saveAuth$(auth)),
+      map((auth) => {
+        this.#auth$.next(auth);
+        console.log('User updated');
+        return auth.userInfos;
+      })
+    );
+  }
+
+  deleteProfile$(authRequest: AuthRequest, headers: any): Observable<User> {
+    console.log('authRequest OK : ', authRequest);
+    console.log('authRequest.id OK : ', authRequest.id);
+
+    const authUrl = `${environment.apiUrl}/utilisateurs/${authRequest.id}`;
+    const options = { headers };
+    return this.http.delete<AuthResponse>(authUrl, options).pipe(
+      delayWhen((auth) => this.#saveAuth$(auth)),
+      map((auth) => {
+        this.#auth$.next(auth);
+        console.log('User deleted');
+        return auth.userInfos;
+      })
+    );
   }
 }

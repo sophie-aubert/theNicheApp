@@ -9,45 +9,102 @@
     <ion-title>Bienvenue sur la page des données personnelles</ion-title>
   </div>
 
-  <ion-list>
-    <ion-item>
-      <ion-label position="stacked">Prénom</ion-label>
-      <ion-text>{{ user?.prenom }}</ion-text>
-    </ion-item>
+  <ng-form #profilForm="ngForm">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Prénom :</ion-label>
+        <ion-input
+          inputmode="text"
+          #prenom="ngModel"
+          required
+          name="prenom"
+          [(ngModel)]="profilRequest.prenom"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Nom</ion-label>
-      <ion-text>{{ user?.nom }}</ion-text>
-    </ion-item>
+      <ion-item>
+        <ion-label position="floating">Nom</ion-label>
+        <ion-input
+          inputmode="text"
+          #nom="ngModel"
+          required
+          name="nom"
+          [(ngModel)]="profilRequest.nom"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Nom d'utilisateur</ion-label>
-      <ion-text>{{ user?.username }}</ion-text>
-    </ion-item>
+      <ion-item>
+        <ion-label position="floating">Username :</ion-label>
+        <ion-input
+          inputmode="text"
+          #username="ngModel"
+          required
+          name="username"
+          [(ngModel)]="profilRequest.username"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">E-mail</ion-label>
-      <ion-text>{{ user?.email }}</ion-text>
-    </ion-item>
+      <ion-item>
+        <ion-label position="floating">E-mail :</ion-label>
+        <ion-input
+          inputmode="email"
+          #email="ngModel"
+          required
+          name="email"
+          [(ngModel)]="profilRequest.email"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Mot de passe</ion-label>
-      <ion-text>{{ user?.password }}</ion-text>
-    </ion-item>
+      <ion-item>
+        <ion-label position="floating">Mot de passe :</ion-label>
+        <ion-input
+          inputmode="text"
+          type="password"
+          #password="ngModel"
+          required
+          name="password"
+          [(ngModel)]="profilRequest.password"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">NPA</ion-label>
-      <ion-text>{{ user?.npa }}</ion-text>
-    </ion-item>
+      <ion-item>
+        <ion-label position="stacked">NPA</ion-label>
+        <ion-input
+          inputmode="text"
+          #npa="ngModel"
+          required
+          name="npa"
+          [(ngModel)]="profilRequest.npa"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Ville</ion-label>
-      <ion-text>{{ user?.ville }}</ion-text>
-    </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Ville</ion-label>
+        <ion-input
+          inputmode="text"
+          #ville="ngModel"
+          required
+          name="ville"
+          [(ngModel)]="profilRequest.ville"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Adresse</ion-label>
-      <ion-text>{{ user?.adresse }}</ion-text>
-    </ion-item>
-  </ion-list>
+      <ion-item>
+        <ion-label position="stacked">Adresse</ion-label>
+        <ion-input
+          inputmode="text"
+          #adresse="ngModel"
+          required
+          name="adresse"
+          [(ngModel)]="profilRequest.adresse"
+        ></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="block" (click)="onSubmit(profilForm)"
+      >Modifier</ion-button
+    >
+    <ion-button expand="block" (click)="supprimerProfile()" color="danger">
+      Supprimer le profil
+    </ion-button>
+  </ng-form>
 </ion-content>
