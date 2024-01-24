@@ -20,7 +20,7 @@ export class PanierService {
   }
 
   async getPanier() {
-    this.panier = await this.storage.get(this.STORAGE_KEY) || []; // Obtenez le panier depuis le Storage
+    this.panier = (await this.storage.get(this.STORAGE_KEY)) || []; // Obtenez le panier depuis le Storage
     return this.panier;
-  }
+  }
 }
