@@ -20,6 +20,7 @@
     <!-- Affichez les détails de l'annonce ici -->
     <h2>{{ annonceDetails.titre }}</h2>
     <p>Description:{{ annonceDetails.description }}</p>
+    <img [src]="annonceDetails.image" class="image-container" />
     <p>Prix: {{ annonceDetails.prix }}</p>
 
     <!-- Bouton "Ajouter au panier" -->
