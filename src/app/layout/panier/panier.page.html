@@ -14,14 +14,19 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true">
-  <!-- Utilisez une ion-list pour afficher les articles -->
   <ion-list *ngIf="articlesInPanier.length > 0">
     <ion-item *ngFor="let article of articlesInPanier">
       {{ article.titre }} - {{ article.prix }}
+      <ion-icon
+        name="supprimer"
+        slot="end"
+        (click)="supprimerDuPanier(article)"
+      ></ion-icon>
     </ion-item>
   </ion-list>
-  <!-- Ajoutez un message si le panier est vide -->
+
   <div *ngIf="articlesInPanier.length === 0" class="ion-padding">
     Votre panier est vide.
   </div>

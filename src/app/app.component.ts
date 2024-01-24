@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { Storage } from "@ionic/storage-angular";
-import { addIcons } from "ionicons";
-import { logOut } from "ionicons/icons";
-import { basketOutline } from "ionicons/icons";
+import { Storage } from '@ionic/storage-angular';
+import { addIcons } from 'ionicons';
+import { logOut } from 'ionicons/icons';
+import { basketOutline } from 'ionicons/icons';
 import { personOutline } from 'ionicons/icons';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-
+import { closeOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +20,8 @@ export class AppComponent {
     addIcons({
       logout: logOut,
       panier: basketOutline,
-      profil: personOutline
-    })
+      profil: personOutline,
+      supprimer: closeOutline,
+    });
   }
-
 }

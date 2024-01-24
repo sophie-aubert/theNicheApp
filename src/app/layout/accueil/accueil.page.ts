@@ -33,14 +33,15 @@ import * as turf from '@turf/turf';
   ],
 })
 export class AccueilPage implements OnInit, ViewWillEnter {
+  recherche: string = ''; // Variable pour stocker la valeur de la recherche
   annonces: any[] = [];
+  annoncesOriginal: any[] = [];
   page = 1;
   limit = 100;
   totalPages = 10;
   annonceSelectionnee: any;
   mapOptions: MapOptions;
   mapMarkers: Marker[];
-  
 
   constructor(
     private auth: AuthService,
@@ -67,16 +68,42 @@ export class AccueilPage implements OnInit, ViewWillEnter {
     ];
   }
 
+  // Fonction appelée lorsqu'il y a un changement dans la barre de recherche
+  onInputChange() {
+    this.filterAnnonces();
+  }
+
+  // Fonction de recherche
+  filterAnnonces() {
+    const filterValue = this.recherche.toLowerCase();
+    this.annonces = this.annoncesOriginal.filter((annonce) => {
+      return annonce.titre.toLowerCase().includes(filterValue);
+    });
+
+    this.sortAnnoncesAlphabetically();
+  }
+
+  // Fonction de tri alphabétique
+  sortAnnoncesAlphabetically() {
+    this.annonces = this.annonces.sort((a, b) => {
+      return a.titre.localeCompare(b.titre);
+    });
+  }
+
   onMapReady(map: Map) {
     console.log('La carte est prête');
-  
+
     Geolocation.getCurrentPosition().then((position) => {
       if (position && position.coords) {
-        const currentLocation = turf.point([position.coords.longitude, position.coords.latitude]);
-        const annoncesAvecDistance = this.calculerDistancePourAnnonces(currentLocation);
-  
+        const currentLocation = turf.point([
+          position.coords.longitude,
+          position.coords.latitude,
+        ]);
+        const annoncesAvecDistance =
+          this.calculerDistancePourAnnonces(currentLocation);
+
         console.log('Annonces avec distance :', annoncesAvecDistance);
-  
+
         const toast = this.toastController.create({
           message: 'Carte affichée avec les annonces et distances',
           duration: 2000,
@@ -86,7 +113,7 @@ export class AccueilPage implements OnInit, ViewWillEnter {
         console.error('Position géographique non disponible');
       }
     });
-  
+
     setTimeout(() => {
       map.invalidateSize();
       console.log('La carte devrait être redimensionnée');
@@ -95,17 +122,19 @@ export class AccueilPage implements OnInit, ViewWillEnter {
 
   loadAnnonces() {
     const url = `${environment.apiUrl}/annonces?page=${this.page}&limit=${this.limit}`;
-  
+
     this.http.get<any[]>(url).subscribe(
       (annonces: any[]) => {
-        // Vider le tableau avant d'ajouter de nouvelles annonces
-        this.annonces = [];
-        this.annonces = annonces;
+        // Stocker les annonces d'origine
+        this.annoncesOriginal = annonces;
         this.totalPages = Math.ceil(annonces.length / this.limit);
-  
+
+        // Cloner le tableau pour éviter les références directes
+        this.annonces = [...annonces];
+
         // Initialiser un nouveau tableau de marqueurs
         this.mapMarkers = this.createMarkersForAnnonces();
-  
+
         console.log('Annonces chargées :', this.annonces);
       },
       (error: any) => {
@@ -114,9 +143,6 @@ export class AccueilPage implements OnInit, ViewWillEnter {
     );
   }
 
- 
-  
-  
   ngOnInit() {
     this.loadAnnonces();
   }
@@ -146,7 +172,8 @@ export class AccueilPage implements OnInit, ViewWillEnter {
   }
 
   @ViewChild(IonModal) modal: IonModal;
-  message = 'Cet exemple de modal utilise des déclencheurs pour ouvrir automatiquement une modal lorsque le bouton est cliqué.';
+  message =
+    'Cet exemple de modal utilise des déclencheurs pour ouvrir automatiquement une modal lorsque le bouton est cliqué.';
   name: string;
 
   cancel() {
@@ -166,7 +193,10 @@ export class AccueilPage implements OnInit, ViewWillEnter {
 
   async getCurrentLocation() {
     const coordinates = await Geolocation.getCurrentPosition();
-    return turf.point([coordinates.coords.longitude, coordinates.coords.latitude]);
+    return turf.point([
+      coordinates.coords.longitude,
+      coordinates.coords.latitude,
+    ]);
   }
 
   async afficherCarteAvecAnnonces() {
@@ -174,11 +204,15 @@ export class AccueilPage implements OnInit, ViewWillEnter {
       const coordinates = await Geolocation.getCurrentPosition();
       if (coordinates && coordinates.coords) {
         // Inverser les propriétés longitude et latitude
-        const location = turf.point([coordinates.coords.latitude, coordinates.coords.longitude]);
-        const annoncesAvecDistance = this.calculerDistancePourAnnonces(location);
-  
+        const location = turf.point([
+          coordinates.coords.latitude,
+          coordinates.coords.longitude,
+        ]);
+        const annoncesAvecDistance =
+          this.calculerDistancePourAnnonces(location);
+
         console.log('Annonces avec distance :', annoncesAvecDistance);
-  
+
         const toast = this.toastController.create({
           message: 'Carte affichée avec les annonces et distances',
           duration: 2000,
@@ -188,23 +222,32 @@ export class AccueilPage implements OnInit, ViewWillEnter {
         console.error('Position géographique non disponible');
       }
     } catch (error) {
-      console.error('Erreur lors de la récupération de la position actuelle', error);
+      console.error(
+        'Erreur lors de la récupération de la position actuelle',
+        error
+      );
     }
   }
-  
+
   createMarkersForAnnonces(location?: any): Marker[] {
     return this.annonces
-      .filter(annonce => annonce.geolocation && annonce.geolocation.coordinates)
-      .map(annonce => {
+      .filter(
+        (annonce) => annonce.geolocation && annonce.geolocation.coordinates
+      )
+      .map((annonce) => {
         const customIcon = defaultIcon;
         // Inverser les propriétés longitude et latitude
-        return marker([annonce.geolocation.coordinates[1], annonce.geolocation.coordinates[0]], { icon: customIcon, title: annonce.titre });
+        return marker(
+          [
+            annonce.geolocation.coordinates[1],
+            annonce.geolocation.coordinates[0],
+          ],
+          { icon: customIcon, title: annonce.titre }
+        );
       });
   }
 
   calculerDistancePourAnnonces(location: any) {
-   
-
     const annoncesAvecDistance = this.annonces.map((annonce) => {
       const destination = turf.point(annonce.geolocation.coordinates);
       const options: { units?: Units | undefined } = { units: 'kilometers' };
