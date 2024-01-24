@@ -44,9 +44,9 @@ export class DonneesPersoPage implements OnInit {
     });
   }
 
-  onSubmit(form: NgForm) {
+  onSubmitModif(form: NgForm) {
     console.log('bouton OK');
-
+    console.log('utilisateur ;', this.user);
     this.auth.getToken$().subscribe((authToken) => {
       console.log("Token d'authentification récupéré", authToken);
 
@@ -61,12 +61,11 @@ export class DonneesPersoPage implements OnInit {
         };
 
         // Faire la requête HTTP avec le token dans le header
-        this.auth
-          .updateProfil$(this.profilRequest, headers)
-          .subscribe((user) => {
-            console.log('Profil mis à jour avec succès!', user);
-            this.router.navigateByUrl('/accueil');
-          });
+        this.auth.updateProfil$(this.profilRequest, headers);
+        // .subscribe((user) => {
+        //   console.log('Profil mis à jour avec succès!', user);
+        this.router.navigateByUrl('/accueil');
+        // });
       }
     });
   }

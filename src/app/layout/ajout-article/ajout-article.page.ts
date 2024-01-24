@@ -2,12 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { Router, RouterModule } from "@angular/router";
-import { AuthService } from "src/app/security/auth.service";
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from 'src/app/security/auth.service';
 import { NavController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from '@capacitor/camera';
 import { QimgImage } from 'src/app/models/qimg-image.model';
 import { PictureService } from 'src/app/picture/picture.service';
 
@@ -18,10 +23,8 @@ import { PictureService } from 'src/app/picture/picture.service';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
-
 export class AjoutArticlePage implements OnInit {
-  
-  //définir les proprités du nouvel article 
+  //définir les proprités du nouvel article
   nouvelArticle: any = {
     titre: '',
     description: '',
@@ -32,20 +35,17 @@ export class AjoutArticlePage implements OnInit {
   };
   suggestions: any[] = [];
 
- 
- 
-
-    // Assurez-vous que cette propriété est correctement déclarée
-    categories: string[] = [
-      "Chaussures",
-      "Pantalons",
-      "Chemises",
-      "Pulls",
-      "Vestes",
-      "Manteaux",
-      "Accessoires",
-      "T-shirts"
-    ];
+  // Assurez-vous que cette propriété est correctement déclarée
+  categories: string[] = [
+    'Chaussures',
+    'Pantalons',
+    'Chemises',
+    'Pulls',
+    'Vestes',
+    'Manteaux',
+    'Accessoires',
+    'T-shirts',
+  ];
 
   constructor(
     private http: HttpClient,
@@ -62,16 +62,15 @@ export class AjoutArticlePage implements OnInit {
         format: 'json',
         addressdetails: 1,
       };
-  
+
       this.http.get<any[]>(nominatimApiUrl, { params }).subscribe(
         (response) => {
           console.log('Résultats de la recherche:', response);
-  
+
           if (response.length > 0) {
             this.suggestions = response;
-  
-            // Stockez la latitude et la longitude dans nouvelArticle
 
+            // Stockez la latitude et la longitude dans nouvelArticle
           }
         },
         (error: any) => {
@@ -80,7 +79,6 @@ export class AjoutArticlePage implements OnInit {
       );
     }
   }
-  
 
   selectCity(city: any): void {
     this.nouvelArticle.longitude = city.lon;
@@ -92,72 +90,62 @@ export class AjoutArticlePage implements OnInit {
   ngOnInit() {}
 
   logOut() {
-    console.log("logging out...");
+    console.log('logging out...');
     this.auth.logOut();
-    this.router.navigateByUrl("/login");
+    this.router.navigateByUrl('/login');
   }
 
   panier() {
-    this.router.navigateByUrl("/panier");
+    this.router.navigateByUrl('/panier');
   }
 
   profil() {
-    this.router.navigateByUrl("/donnees-perso");
+    this.router.navigateByUrl('/donnees-perso');
   }
-
-
 
   async takePicture() {
     try {
-      const image = await this.pictureService.takeAndUploadPicture().toPromise();
+      const image = await this.pictureService
+        .takeAndUploadPicture()
+        .toPromise();
       this.nouvelArticle.image = image?.url;
     } catch (error) {
       console.error('Erreur lors de la prise de la photo :', error);
     }
   }
 
-
-  
-
-
-
- 
-
-
   ajouterArticle() {
-  
     this.auth.getToken$().subscribe((authToken) => {
-      console.log('Token d\'authentification récupéré', authToken);
+      console.log("Token d'authentification récupéré", authToken);
 
       if (!authToken) {
-        console.error('Token d\'authentification introuvable.');
+        console.error("Token d'authentification introuvable.");
         return;
       } else {
-        
-      const apiUrl = 'https://thenicheapp.onrender.com';
-      const endpoint = `${apiUrl}/annonces`;
-  
-      this.http.post(endpoint, this.nouvelArticle, {
-        headers: {
-          Authorization: authToken
-        }
+        const apiUrl = 'https://thenicheapp.onrender.com';
+        const endpoint = `${apiUrl}/annonces`;
 
-      }).subscribe(
-        (response: any) => {
-          console.log('Nouvel article ajouté avec succès!', response);
-          this.nouvelArticle = {};
-          this.router.navigateByUrl('/accueil');
-        },
-        (error: any) => {
-          console.error('Erreur lors de l\'ajout de l\'article', error);
-          // Imprimer le contenu de l'erreur pour obtenir des détails spécifiques du serveur
-          if (error instanceof HttpErrorResponse) {
-            console.error('Erreur du serveur:', error.error);
-          }
-        }
-      );
-    }
-  }
-  );
+        this.http
+          .post(endpoint, this.nouvelArticle, {
+            headers: {
+              Authorization: authToken,
+            },
+          })
+          .subscribe(
+            (response: any) => {
+              console.log('Nouvel article ajouté avec succès!', response);
+              this.nouvelArticle = {};
+              this.router.navigateByUrl('/accueil');
+            },
+            (error: any) => {
+              console.error("Erreur lors de l'ajout de l'article", error);
+              // Imprimer le contenu de l'erreur pour obtenir des détails spécifiques du serveur
+              if (error instanceof HttpErrorResponse) {
+                console.error('Erreur du serveur:', error.error);
+              }
+            }
+          );
+      }
+    });
   }
 }
