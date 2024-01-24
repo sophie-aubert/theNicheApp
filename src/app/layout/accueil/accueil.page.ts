@@ -16,6 +16,8 @@ import { latLng, MapOptions, tileLayer } from 'leaflet';
 import { Map } from 'leaflet';
 import { defaultIcon } from './default-marker';
 import { marker, Marker } from 'leaflet';
+import { Units } from '@turf/helpers';
+import * as turf from '@turf/turf';
 
 @Component({
   selector: 'app-accueil',
@@ -35,10 +37,10 @@ export class AccueilPage implements OnInit, ViewWillEnter {
   page = 1;
   limit = 100;
   totalPages = 10;
-  annonceSelectionnee: any; // Nouvelle propriété
+  annonceSelectionnee: any;
   mapOptions: MapOptions;
   mapMarkers: Marker[];
-
+  
 
   constructor(
     private auth: AuthService,
@@ -46,11 +48,8 @@ export class AccueilPage implements OnInit, ViewWillEnter {
     private readonly http: HttpClient,
     private toastController: ToastController
   ) {
-    // Initialisation de 'modal'
     this.modal = {} as IonModal;
-    // Initialisation de 'name'
     this.name = '';
-
     this.mapOptions = {
       layers: [
         tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -69,72 +68,83 @@ export class AccueilPage implements OnInit, ViewWillEnter {
   }
 
   onMapReady(map: Map) {
-    console.log('Map is ready');
+    console.log('La carte est prête');
+  
+    Geolocation.getCurrentPosition().then((position) => {
+      if (position && position.coords) {
+        const currentLocation = turf.point([position.coords.longitude, position.coords.latitude]);
+        const annoncesAvecDistance = this.calculerDistancePourAnnonces(currentLocation);
+  
+        console.log('Annonces avec distance :', annoncesAvecDistance);
+  
+        const toast = this.toastController.create({
+          message: 'Carte affichée avec les annonces et distances',
+          duration: 2000,
+        });
+        toast.then((t) => t.present());
+      } else {
+        console.error('Position géographique non disponible');
+      }
+    });
+  
     setTimeout(() => {
       map.invalidateSize();
-      console.log('Map should resize');
+      console.log('La carte devrait être redimensionnée');
     }, 200);
   }
-
-
-  ///////LOAD ANNONCES ET PREVIOUS ET NEXT/////////////////////////
 
   loadAnnonces() {
     const url = `${environment.apiUrl}/annonces?page=${this.page}&limit=${this.limit}`;
 
     this.http.get<any[]>(url).subscribe(
       (annonces: any[]) => {
-        // Ajouter les annonces chargées au tableau des annonces
-        this.annonces = [...this.annonces, ...annonces];
+        this.annonces = annonces;
         this.totalPages = Math.ceil(annonces.length / this.limit);
+
+        // Initialiser un nouveau tableau de marqueurs
+        this.mapMarkers = this.createMarkersForAnnonces();
 
         console.log('Annonces chargées :', this.annonces);
       },
       (error: any) => {
         console.error('Erreur lors du chargement des annonces', error);
-        // Gérer les erreurs de chargement des annonces ici.
       }
     );
   }
+
+ 
+  
+  
   ngOnInit() {
-    // Chargement initial des annonces
     this.loadAnnonces();
   }
 
   ionViewWillEnter(): void {
-    // Chargement des annonces à chaque entrée dans la vue
     this.loadAnnonces();
   }
 
-
-
   logOut() {
-    console.log('logging out...');
+    console.log('Déconnexion...');
     this.auth.logOut();
     this.router.navigateByUrl('/login');
   }
 
-  // Nouvelle méthode pour gérer le clic sur le bouton "Panier"
   panier() {
     this.router.navigateByUrl('/panier');
   }
+
   profil() {
     this.router.navigateByUrl('/donnees-perso');
   }
 
-  // Nouvelle méthode pour gérer le clic sur une annonce
   onAnnonceClick(annonce: any) {
     console.log('Annonce cliquée :', annonce);
     this.annonceSelectionnee = annonce;
-    this.router.navigate(['/article', this.annonceSelectionnee.id]); // Passer l'ID lors de la navigation
+    this.router.navigate(['/article', this.annonceSelectionnee.id]);
   }
 
-  ////////////////////////////AFFICHER MODAL//////////////////////////////////////
-
   @ViewChild(IonModal) modal: IonModal;
-
-  message =
-    'This modal example uses triggers to automatically open a modal when the button is clicked.';
+  message = 'Cet exemple de modal utilise des déclencheurs pour ouvrir automatiquement une modal lorsque le bouton est cliqué.';
   name: string;
 
   cancel() {
@@ -148,64 +158,59 @@ export class AccueilPage implements OnInit, ViewWillEnter {
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
-      this.message = `Hello, ${ev.detail.data}!`;
+      this.message = `Bonjour, ${ev.detail.data} !`;
     }
   }
 
-  //////////////////////////////GEOLOCALISATION//////////////////////////////////////
   async getCurrentLocation() {
     const coordinates = await Geolocation.getCurrentPosition();
-    return coordinates.coords;
+    return turf.point([coordinates.coords.longitude, coordinates.coords.latitude]);
   }
 
   async afficherCarteAvecAnnonces() {
     try {
-      const location = await this.getCurrentLocation();
-      const annoncesAvecDistance = this.calculerDistancePourAnnonces(location);
-
-      // Utilisez les données pour afficher la carte ou effectuer d'autres actions
-      console.log('Annonces avec distance:', annoncesAvecDistance);
-
-      // Affichez un message à l'utilisateur
-      const toast = await this.toastController.create({
-        message: 'Carte affichée avec les annonces et distances',
-        duration: 2000,
-      });
-      toast.present();
+      const coordinates = await Geolocation.getCurrentPosition();
+      if (coordinates && coordinates.coords) {
+        // Inverser les propriétés longitude et latitude
+        const location = turf.point([coordinates.coords.latitude, coordinates.coords.longitude]);
+        const annoncesAvecDistance = this.calculerDistancePourAnnonces(location);
+  
+        console.log('Annonces avec distance :', annoncesAvecDistance);
+  
+        const toast = this.toastController.create({
+          message: 'Carte affichée avec les annonces et distances',
+          duration: 2000,
+        });
+        toast.then((t) => t.present());
+      } else {
+        console.error('Position géographique non disponible');
+      }
     } catch (error) {
-      console.error(
-        'Erreur lors de la récupération de la position actuelle',
-        error
-      );
+      console.error('Erreur lors de la récupération de la position actuelle', error);
     }
+  }
+  
+  createMarkersForAnnonces(location?: any): Marker[] {
+    return this.annonces
+      .filter(annonce => annonce.geolocation && annonce.geolocation.coordinates)
+      .map(annonce => {
+        const customIcon = defaultIcon;
+        // Inverser les propriétés longitude et latitude
+        return marker([annonce.geolocation.coordinates[1], annonce.geolocation.coordinates[0]], { icon: customIcon, title: annonce.titre });
+      });
   }
 
   calculerDistancePourAnnonces(location: any) {
-    // Implémentez la logique pour calculer la distance pour chaque annonce
-    // Vous pouvez utiliser la formule Haversine ou d'autres méthodes de calcul de distance
-    // Ensuite, ajoutez la distance aux données de l'annonce
+   
+
     const annoncesAvecDistance = this.annonces.map((annonce) => {
-      const distance = this.calculerDistanceEntreDeuxPoints(
-        location.latitude,
-        location.longitude,
-        annonce.latitude, // Remplacez par la propriété réelle de latitude de votre annonce
-        annonce.longitude // Remplacez par la propriété réelle de longitude de votre annonce
-      );
+      const destination = turf.point(annonce.geolocation.coordinates);
+      const options: { units?: Units | undefined } = { units: 'kilometers' };
+      const distance = turf.distance(location, destination, options);
 
       return { ...annonce, distance };
     });
 
     return annoncesAvecDistance;
-  }
-
-  calculerDistanceEntreDeuxPoints(
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number
-  ) {
-    // Implémentez la formule Haversine ou utilisez des bibliothèques comme haversine-distance
-    // pour calculer la distance entre deux points géographiques
-    // Retournez la distance calculée
   }
 }

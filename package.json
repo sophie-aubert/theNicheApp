@@ -32,6 +32,8 @@
     "@ionic/angular": "^7.5.0",
     "@ionic/pwa-elements": "^3.2.2",
     "@ionic/storage-angular": "^4.0.0",
+    "@turf/distance": "^6.5.0",
+    "@turf/turf": "^6.5.0",
     "ionicons": "^7.2.1",
     "leaflet": "^1.9.4",
     "ng": "^0.0.0",
