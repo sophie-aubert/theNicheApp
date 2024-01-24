@@ -95,15 +95,17 @@ export class AccueilPage implements OnInit, ViewWillEnter {
 
   loadAnnonces() {
     const url = `${environment.apiUrl}/annonces?page=${this.page}&limit=${this.limit}`;
-
+  
     this.http.get<any[]>(url).subscribe(
       (annonces: any[]) => {
+        // Vider le tableau avant d'ajouter de nouvelles annonces
+        this.annonces = [];
         this.annonces = annonces;
         this.totalPages = Math.ceil(annonces.length / this.limit);
-
+  
         // Initialiser un nouveau tableau de marqueurs
         this.mapMarkers = this.createMarkersForAnnonces();
-
+  
         console.log('Annonces chargées :', this.annonces);
       },
       (error: any) => {
