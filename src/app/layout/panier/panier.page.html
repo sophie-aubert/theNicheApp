@@ -14,23 +14,26 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
+ 
 <ion-content [fullscreen]="true">
   <ion-list *ngIf="articlesInPanier.length > 0">
     <ion-item *ngFor="let article of articlesInPanier">
-      {{ article.titre }} - {{ article.prix }}
-      <ion-icon
-        name="supprimer"
-        slot="end"
-        (click)="supprimerDuPanier(article)"
-      ></ion-icon>
+      <!-- Afficher seulement si le statut de l'article est "En Ligne" -->
+      <ng-container *ngIf="article.status === 'En ligne'">
+        {{ article.titre }} - {{ article.prix }}
+        <ion-icon
+          name="supprimer"
+          slot="end"
+          (click)="supprimerDuPanier(article)"
+        ></ion-icon>
+      </ng-container>
     </ion-item>
   </ion-list>
-
+ 
   <div *ngIf="articlesInPanier.length === 0" class="ion-padding">
     Votre panier est vide.
   </div>
-
+ 
   <ion-button
     *ngIf="articlesInPanier.length > 0"
     expand="full"

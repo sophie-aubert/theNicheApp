@@ -1,9 +1,21 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Ajout d'article</ion-title>
+    <ion-title>Ajouter un article</ion-title>
+ 
+    <ion-buttons slot="end">
+      <ion-button (click)="profil()">
+        <ion-icon name="profil"></ion-icon>
+      </ion-button>
+      <ion-button (click)="panier()">
+        <ion-icon name="panier"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logOut()">
+        <ion-icon name="logout"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
+ 
 <ion-content>
   <form #ajoutArticleForm="ngForm" (ngSubmit)="ajouterArticle()">
     <ion-list>
@@ -16,7 +28,7 @@
           required
         ></ion-input>
       </ion-item>
-
+ 
       <ion-item>
         <ion-label position="stacked">Description</ion-label>
         <ion-textarea
@@ -25,7 +37,7 @@
           required
         ></ion-textarea>
       </ion-item>
-
+ 
       <ion-item>
         <ion-label position="stacked">Prix</ion-label>
         <ion-input
@@ -35,7 +47,7 @@
           required
         ></ion-input>
       </ion-item>
-
+ 
       <ion-item>
         <ion-label position="stacked">Catégorie</ion-label>
         <ion-select
@@ -59,7 +71,7 @@
           (ionInput)="searchCity($event.target.value)"
           name="localisation"
         ></ion-input>
-
+ 
         <div *ngIf="suggestions.length > 0">
           <ion-list>
             <ion-item
@@ -71,23 +83,25 @@
           </ion-list>
         </div>
       </ion-item>
-
+ 
       <!-- Ajoutez des messages d'erreur si nécessaire -->
-      <ion-item *ngIf="ajoutArticleForm.controls['titre']?.hasError('required')">
+      <ion-item
+        *ngIf="ajoutArticleForm.controls['titre']?.hasError('required')"
+      >
         <ion-text color="danger">Le titre est requis.</ion-text>
       </ion-item>
-
+ 
       <!-- Ajoutez des messages d'erreur pour les autres champs si nécessaire -->
     </ion-list>
-    
+ 
     <ion-item>
       <ion-label position="stacked">Photo</ion-label>
       <ion-button (click)="takePicture()">Prendre une photo</ion-button>
-      <div  *ngIf="nouvelArticle.image " class="image-container">
+      <div *ngIf="nouvelArticle.image " class="image-container">
         <img [src]="nouvelArticle.image" />
       </div>
     </ion-item>
-       
+ 
     <ion-button
       type="submit"
       expand="block"

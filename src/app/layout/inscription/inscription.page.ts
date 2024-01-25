@@ -1,4 +1,3 @@
-// Assurez-vous d'importer le HttpClient dans votre composant
 import { HttpClient } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { Component } from '@angular/core';
@@ -7,46 +6,62 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
-
+import { AlertController } from '@ionic/angular';
+ 
 @Component({
-  selector: "app-login",
-  templateUrl: "./inscription.page.html",
-  styleUrls: ["./inscription.page.scss"],
+  selector: 'app-login',
+  templateUrl: './inscription.page.html',
+  styleUrls: ['./inscription.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class InscriptionPage {
   inscriptionRequest: AuthRequest = {};
-
-  constructor(private http: HttpClient, private router: Router) {}
-
-  onSubmit(form: NgForm) {
+ 
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private alertController: AlertController
+  ) {}
+ 
+  async onSubmit(form: NgForm) {
     if (form.invalid) {
       return;
     }
-
+ 
     const apiUrl = 'https://thenicheapp.onrender.com';
     const endpoint = `${apiUrl}/auth/inscription`;
-
-    this.http.post(endpoint, this.inscriptionRequest).subscribe(
-      (response: any) => {
-        console.log('Inscription réussie!', response);
-        // Rediriger l'utilisateur vers la page de connexion.
-        this.router.navigateByUrl('/accueil');
-    
-      },
-      (error: any) => {
-        console.error('Erreur lors de l\'inscription', error);
-
-        // Gérer les erreurs d'inscription ici.
-        if (error.status === 409) {
-          // Exemple: Afficher un message d'erreur pour un conflit (par exemple, utilisateur existant)
-          console.error('Utilisateur déjà existant');
-        } else {
-          // Gérer d'autres erreurs
-        }
+ 
+    try {
+      const response = await this.http
+        .post(endpoint, this.inscriptionRequest)
+        .toPromise();
+      console.log('Inscription réussie!', response);
+      // Rediriger l'utilisateur vers la page de connexion.
+      this.router.navigateByUrl('/accueil');
+    } catch (error) {
+      if (error) {
+        this.presentAlert(
+          'Ohlala...',
+          'Cette adresse mail est déjà utilisée !'
+        );
+      } else {
+        // Gérer d'autres erreurs
+        this.presentAlert(
+          "Erreur d'inscription",
+          "Une erreur inattendue s'est produite."
+        );
       }
-    );
+    }
+  }
+ 
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 }
+ 
