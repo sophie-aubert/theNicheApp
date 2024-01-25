@@ -30,4 +30,13 @@
   <div *ngIf="articlesInPanier.length === 0" class="ion-padding">
     Votre panier est vide.
   </div>
+
+  <ion-button
+    *ngIf="articlesInPanier.length > 0"
+    expand="full"
+    color="success"
+    (click)="payer()"
+  >
+    Commander
+  </ion-button>
 </ion-content>

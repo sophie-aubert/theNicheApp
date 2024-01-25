@@ -1,3 +1,5 @@
+// panier.page.ts
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PanierService } from 'src/app/layout/panier/panier.service';
 import { Router } from '@angular/router';
@@ -16,8 +18,8 @@ import { Subscription } from 'rxjs';
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class PanierPage implements OnInit, OnDestroy {
-  articlesInPanier: any[] = [];
   private panierSubscription: Subscription;
+  articlesInPanier: any[] = [];
 
   constructor(
     private panierService: PanierService,
@@ -33,11 +35,18 @@ export class PanierPage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     try {
-      await this.panierService.initStorage(); // Initialisez le stockage avant d'accéder au panier
+      await this.panierService.initStorage();
       this.articlesInPanier = await this.panierService.getPanier();
     } catch (error) {
       console.error('Erreur lors de la récupération du panier', error);
     }
+  }
+
+  payer() {
+    console.log('Paiement en cours...');
+    this.router.navigate(['/paiement'], {
+      queryParams: { state: JSON.stringify({ panier: this.articlesInPanier }) },
+    });
   }
 
   ngOnDestroy() {
@@ -51,7 +60,6 @@ export class PanierPage implements OnInit, OnDestroy {
   }
 
   panier() {
-    // Changer le nom de la méthode "panier()" car il est également utilisé pour déclencher la navigation vers cette page
     console.log('Accéder au panier...');
   }
 
@@ -63,7 +71,11 @@ export class PanierPage implements OnInit, OnDestroy {
     const index = this.articlesInPanier.indexOf(article);
     if (index !== -1) {
       this.articlesInPanier.splice(index, 1);
-      this.panierService.setPanier(this.articlesInPanier); // Met à jour le panier dans le service
+      this.panierService.setPanier(this.articlesInPanier);
     }
+  }
+
+  clearPanier(): void {
+    this.articlesInPanier = [];
   }
 }

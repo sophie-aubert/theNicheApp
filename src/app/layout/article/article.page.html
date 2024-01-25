@@ -19,9 +19,14 @@
   <div class="ion-padding">
     <!-- Affichez les détails de l'annonce ici -->
     <h2>{{ annonceDetails.titre }}</h2>
-    <p>Description:{{ annonceDetails.description }}</p>
+    <p>
+      Description : <br />
+      {{ annonceDetails.description }}
+    </p>
     <img [src]="annonceDetails.image" class="image-container" />
-    <p>Prix: {{ annonceDetails.prix }}</p>
+
+    <p>Prix: CHF {{ annonceDetails.prix }}</p>
+    <p>Lieu de la vente : {{annonceDetails.localisation}}</p>
 
     <!-- Bouton "Ajouter au panier" -->
     <ion-button expand="full" color="success" (click)="ajouterAuPanier()">
