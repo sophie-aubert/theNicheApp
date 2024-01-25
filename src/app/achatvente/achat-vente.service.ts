@@ -17,5 +17,10 @@ export class AchatVenteService {
     return this.http.get<any[]>(url);
   }
 
+    // Nouvelle méthode pour supprimer une annonce
+    supprimerAnnonce(annonceId: string): Observable<any> {
+        const url = `${environment.apiUrl}/annonces/${annonceId}`;
+        return this.http.delete(url);
+      }
 
 }

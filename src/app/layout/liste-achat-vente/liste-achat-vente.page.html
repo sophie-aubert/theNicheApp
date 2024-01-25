@@ -20,9 +20,10 @@
     <ion-list>
       <ion-item *ngFor="let annonce of annonces">
         <ion-label>{{ annonce.titre }}</ion-label>
-        <ion-badge [color]="badgeColor(annonce.status)"
-          >{{ displayText(annonce.status) }}</ion-badge
-        >
+        <ion-badge [color]="badgeColor(annonce.status)">
+          {{ displayText(annonce.status) }}
+        </ion-badge>
+        <ion-button (click)="supprimerAnnonce(annonce)">Supprimer</ion-button>
       </ion-item>
     </ion-list>
   </div>

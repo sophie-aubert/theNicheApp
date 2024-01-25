@@ -7,6 +7,7 @@ import { PanierService } from '../panier/panier.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { ListeAchatVentePage } from '../liste-achat-vente/liste-achat-vente.page';
 
 @Component({
   selector: 'app-article',
@@ -26,7 +27,8 @@ export class ArticlePage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private auth: AuthService,
-    private panierService: PanierService
+    private panierService: PanierService,
+    private listeAchatVentePage: ListeAchatVentePage
   ) {}
 
   async loadAnnonceDetails() {
@@ -64,10 +66,14 @@ export class ArticlePage implements OnInit {
     });
   }
 
-  ajouterAuPanier() {
+  async ajouterAuPanier() {
     // Ajouter l'annonce au panier en utilisant le service
     this.panierService.ajouterAuPanier(this.annonceDetails);
     console.log('Annonce ajoutée au panier :', this.annonceDetails);
+
+    // Ajouter l'annonce à la liste d'achat-vente
+    this.listeAchatVentePage.annonces.unshift(this.annonceDetails);
+    console.log('Annonce ajoutée à la liste d\'achat-vente :', this.annonceDetails);
 
     // Naviguer vers la page du panier
     this.router.navigateByUrl('/panier');

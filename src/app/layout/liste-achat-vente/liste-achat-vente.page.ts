@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-liste-achat-vente',
@@ -22,7 +24,8 @@ export class ListeAchatVentePage implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private AchatVenteService: AchatVenteService
+    private AchatVenteService: AchatVenteService,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -98,4 +101,44 @@ export class ListeAchatVentePage implements OnInit {
         return 'Inconnu';
     }
   }
+
+// Fonction pour supprimer une annonce
+async supprimerAnnonce(annonce: any) {
+  const alert = await this.alertController.create({
+    header: 'Confirmer la suppression',
+    message: 'Voulez-vous vraiment supprimer cette annonce ?',
+    buttons: [
+      {
+        text: 'Annuler',
+        role: 'cancel',
+        cssClass: 'secondary',
+      },
+      {
+        text: 'Supprimer',
+        handler: async () => {
+          try {
+            // Assurez-vous que l'annonce a un ID avant de tenter de le supprimer
+            const annonceId = annonce && annonce._id;
+
+            if (annonceId) {
+              // Appelez le service pour supprimer l'annonce
+              await this.AchatVenteService.supprimerAnnonce(annonceId).toPromise();
+              // Mettez à jour la liste des annonces après la suppression
+              this.loadVentesAchats();
+              // Vous pouvez également ajouter une notification ou un message de confirmation ici
+            } else {
+              console.error('L\'annonce n\'a pas d\'ID valide');
+            }
+          } catch (error) {
+            console.error('Erreur lors de la suppression de l\'annonce', error);
+          }
+        },
+      },
+    ],
+  });
+
+  await alert.present();
+}
+
+
 }
