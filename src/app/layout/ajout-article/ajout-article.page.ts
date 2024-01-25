@@ -115,22 +115,12 @@ export class AjoutArticlePage implements OnInit {
   }
 
   ajouterArticle() {
-    this.auth.getToken$().subscribe((authToken) => {
-      console.log("Token d'authentification récupéré", authToken);
-
-      if (!authToken) {
-        console.error("Token d'authentification introuvable.");
-        return;
-      } else {
+ 
         const apiUrl = 'https://thenicheapp.onrender.com';
         const endpoint = `${apiUrl}/annonces`;
 
         this.http
-          .post(endpoint, this.nouvelArticle, {
-            headers: {
-              Authorization: authToken,
-            },
-          })
+          .post(endpoint, this.nouvelArticle)
           .subscribe(
             (response: any) => {
               console.log('Nouvel article ajouté avec succès!', response);
@@ -145,7 +135,7 @@ export class AjoutArticlePage implements OnInit {
               }
             }
           );
-      }
-    });
+     
+          
   }
 }

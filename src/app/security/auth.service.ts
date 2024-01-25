@@ -105,13 +105,13 @@ export class AuthService {
     );
   }
 
-  deleteProfile$(authRequest: AuthRequest, headers: any): Observable<User> {
+  deleteProfile$(authRequest: AuthRequest): Observable<User> {
     // console.log('authRequest OK : ', authRequest);
     // console.log('authRequest.id OK : ', authRequest.id);
 
     const authUrl = `${environment.apiUrl}/utilisateurs/${authRequest.id}`;
-    const options = { headers };
-    return this.http.delete<AuthResponse>(authUrl, options).pipe(
+    
+    return this.http.delete<AuthResponse>(authUrl).pipe(
       delayWhen((auth) => this.#saveAuth$(auth)),
       map((auth) => {
         this.#auth$.next(auth);

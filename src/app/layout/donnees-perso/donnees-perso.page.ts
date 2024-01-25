@@ -69,24 +69,15 @@ export class DonneesPersoPage implements OnInit {
   supprimerProfile() {
     console.log('bouton Supprimer OK');
 
-    this.auth.getToken$().subscribe((authToken) => {
-      console.log("Token d'authentification récupéré", authToken);
-
-      if (!authToken) {
-        console.error("Token d'authentification introuvable.");
-        return;
-      } else {
+   
         console.log('id', this.user?.id);
-        const headers = {
-          Authorization: authToken,
-        };
-        this.auth.deleteProfile$(this.profilRequest, headers);
+       
+        this.auth.deleteProfile$(this.profilRequest);
 
         // on déconnecte l'utilisateur
         this.auth.logOut();
         this.router.navigateByUrl('/login');
-      }
-    });
+ 
   }
 
   logOut() {
