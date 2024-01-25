@@ -23,4 +23,13 @@ export class AchatVenteService {
         return this.http.delete(url);
       }
 
+      getAnnonce$(annonceId: string): Observable<any> {
+        const authUrl = `${environment.apiUrl}/annonces/${annonceId}`;
+    
+        return this.http.get<any>(authUrl);
+      }
+    
+
+
+
 }

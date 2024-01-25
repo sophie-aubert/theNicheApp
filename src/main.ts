@@ -14,6 +14,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { authInterceptor } from './app/security/auth.interceptor';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { PictureService } from './app/picture/picture.service';
+import { ListeAchatVentePage } from './app/layout/liste-achat-vente/liste-achat-vente.page';
 
 if (environment.production) {
   enableProdMode();
@@ -29,6 +30,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(IonicStorageModule.forRoot()),
     provideHttpClient(withInterceptors([authInterceptor])),
     PictureService,
+    ListeAchatVentePage
   ],
 })
   .then(() => defineCustomElements(window)) // Add this line

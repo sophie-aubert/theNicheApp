@@ -23,6 +23,7 @@
         <ion-badge [color]="badgeColor(annonce.status)">
           {{ displayText(annonce.status) }}
         </ion-badge>
+        <ion-button (click)="modifierAnnonce(annonce)">Modifier</ion-button>
         <ion-button (click)="supprimerAnnonce(annonce)">Supprimer</ion-button>
       </ion-item>
     </ion-list>

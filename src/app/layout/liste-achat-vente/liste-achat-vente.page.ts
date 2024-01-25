@@ -6,7 +6,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
+import { ModifierAnnoncePage } from '../modifier-annonce/modifier-annonce.page'; // Import du composant ModifierAnnoncePage
+
 
 
 @Component({
@@ -25,7 +27,8 @@ export class ListeAchatVentePage implements OnInit {
     private auth: AuthService,
     private router: Router,
     private AchatVenteService: AchatVenteService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -141,4 +144,23 @@ async supprimerAnnonce(annonce: any) {
 }
 
 
+
+  // Fonction pour modifier une annonce
+  async modifierAnnonce(annonce: any) {
+    const modal = await this.modalController.create({
+      component: ModifierAnnoncePage,
+      componentProps: {
+        annonce,
+      },
+    });
+
+    modal.onDidDismiss().then((data) => {
+      // Rechargez les annonces après la modification (à ajuster en fonction de votre logique)
+      this.loadVentesAchats();
+    });
+
+    return await modal.present();
+  }
 }
+
+
