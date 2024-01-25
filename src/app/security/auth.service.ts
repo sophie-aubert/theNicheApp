@@ -88,8 +88,8 @@ export class AuthService {
   }
 
   updateProfil$(authRequest: AuthRequest, headers: any): Observable<User> {
-    console.log('authRequest OK : ', authRequest);
-    console.log('authRequest.id OK : ', authRequest.id);
+    // console.log('authRequest OK : ', authRequest);
+    // console.log('authRequest.id OK : ', authRequest.id);
 
     const authUrl = `${environment.apiUrl}/utilisateurs/${authRequest.id}`;
 
@@ -106,8 +106,8 @@ export class AuthService {
   }
 
   deleteProfile$(authRequest: AuthRequest, headers: any): Observable<User> {
-    console.log('authRequest OK : ', authRequest);
-    console.log('authRequest.id OK : ', authRequest.id);
+    // console.log('authRequest OK : ', authRequest);
+    // console.log('authRequest.id OK : ', authRequest.id);
 
     const authUrl = `${environment.apiUrl}/utilisateurs/${authRequest.id}`;
     const options = { headers };
