@@ -1,0 +1,39 @@
+<!-- modifier-annonce.page.html -->
+<ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>Modifier l'annonce</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="annulerModifications()">Annuler</ion-button>
+        <ion-button (click)="sauvegarderModifications()">Enregistrer</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+
+  <ion-content [fullscreen]="true">
+    <div class="ion-padding">
+      <ion-item>
+        <ion-label position="floating">Titre</ion-label>
+        <ion-input [(ngModel)]="annonce.titre" name="titre"></ion-input>
+      </ion-item>
+  
+      <!-- Ajoutez d'autres champs de formulaire similaires pour les autres propriétés de l'annonce -->
+  
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-textarea [(ngModel)]="annonce.description" name="description"></ion-textarea>
+      </ion-item>
+  
+      <!-- Ajoutez d'autres champs de formulaire similaires pour les autres propriétés de l'annonce -->
+  
+      <ion-item>
+        <ion-label position="floating">Prix</ion-label>
+        <ion-input type="number" [(ngModel)]="annonce.prix" name="prix"></ion-input>
+      </ion-item>
+  
+      <!-- Ajoutez d'autres champs de formulaire similaires pour les autres propriétés de l'annonce -->
+  
+      <!-- Vous pouvez personnaliser davantage votre formulaire en fonction de vos besoins -->
+  
+    </div>
+  </ion-content>

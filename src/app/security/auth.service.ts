@@ -45,6 +45,8 @@ export class AuthService {
     return this.#auth$.pipe(map((auth) => auth?.userInfos));
   }
 
+
+
   /**
    * @returns An Observable that will emit the currently authenticated user's token, only if there
    * currently is an authenticated user.
