@@ -7,22 +7,16 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
-
 @Component({
   selector: 'app-liste-achat-vente',
   templateUrl: './liste-achat-vente.page.html',
   styleUrls: ['./liste-achat-vente.page.scss'],
   standalone: true,
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    RouterModule,
-  ],
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
 export class ListeAchatVentePage implements OnInit {
   annonces: any[] = [];
- 
+
   userId: string = ''; // Update the type to string
 
   constructor(
@@ -49,14 +43,13 @@ export class ListeAchatVentePage implements OnInit {
     this.router.navigateByUrl('/donnees-perso');
   }
 
-
   loadVentesAchats() {
     this.auth.getUser$().subscribe(
       (user) => {
         if (user) {
           this.userId = user.id;
           // Utilisez la chaîne de caractères userId
-  
+
           this.AchatVenteService.getMesAnnonces(this.userId).subscribe(
             (ventes: any[]) => {
               this.annonces = ventes;
@@ -65,16 +58,44 @@ export class ListeAchatVentePage implements OnInit {
               console.error('Erreur lors du chargement des ventes', error);
             }
           );
-  
-
         } else {
           console.error('Identifiant utilisateur non disponible');
         }
       },
       (error: any) => {
-        console.error('Erreur lors de la récupération de l\'ID utilisateur', error);
+        console.error(
+          "Erreur lors de la récupération de l'ID utilisateur",
+          error
+        );
       }
     );
   }
-  
+
+  // Méthode pour déterminer la couleur du badge en fonction du statut
+  badgeColor(status: string): string {
+    switch (status) {
+      case 'En ligne':
+        return 'success';
+      case 'Acheté':
+        return 'primary';
+      case 'Vendu':
+        return 'danger';
+      default:
+        return 'medium';
+    }
+  }
+
+  // Méthode pour afficher le texte en fonction du statut
+  displayText(status: string): string {
+    switch (status) {
+      case 'En ligne':
+        return 'En ligne';
+      case 'Acheté':
+        return 'Acheté';
+      case 'Vendu':
+        return 'Vendu';
+      default:
+        return 'Inconnu';
+    }
+  }
 }

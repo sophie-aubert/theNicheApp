@@ -16,9 +16,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Leave the previous content here -->
-  <!-- Add the div below. The .ion-padding class adds some space around the content -->
   <div class="ion-padding">
-    Bienvenue sur la page de la liste des achats et ventes
+    <ion-list>
+      <ion-item *ngFor="let annonce of annonces">
+        <ion-label>{{ annonce.titre }}</ion-label>
+        <ion-badge [color]="badgeColor(annonce.status)"
+          >{{ displayText(annonce.status) }}</ion-badge
+        >
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>
