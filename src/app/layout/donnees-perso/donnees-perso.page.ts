@@ -44,9 +44,21 @@ export class DonneesPersoPage implements OnInit {
     });
   }
 
-  onSubmitModif(form: NgForm) {
-    // console.log('bouton OK');
-    // console.log('utilisateur ;', this.user);
+  // ONSUBMITMODIF
+  ///////////////////////////////////
+  // onSubmitModif(form: NgForm) {
+  //       this.auth
+  //         .updateProfil$(this.profilRequest)
+  //         .subscribe((response) => {
+  //           console.log('response', response);
+  //           this.router.navigateByUrl('/accueil');
+  //         });
+  // }
+
+  // supprimer le compte avec la requête HTTP DELETE /utilisateurs/:id
+  supprimerProfile() {
+    console.log('bouton Supprimer OK');
+
     this.auth.getToken$().subscribe((authToken) => {
       console.log("Token d'authentification récupéré", authToken);
 
@@ -58,26 +70,13 @@ export class DonneesPersoPage implements OnInit {
         const headers = {
           Authorization: authToken,
         };
-
-        this.auth.updateProfil$(this.profilRequest, headers);
-        this.router.navigateByUrl('/accueil');
-      }
-    });
-  }
-
-  // supprimer le compte avec la requête HTTP DELETE /utilisateurs/:id
-  supprimerProfile() {
-    console.log('bouton Supprimer OK');
-
-   
-        console.log('id', this.user?.id);
-       
-        this.auth.deleteProfile$(this.profilRequest);
+        this.auth.deleteProfile$(this.profilRequest, headers);
 
         // on déconnecte l'utilisateur
         this.auth.logOut();
         this.router.navigateByUrl('/login');
- 
+      }
+    });
   }
 
   logOut() {

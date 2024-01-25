@@ -8,9 +8,9 @@ import { Storage } from '@ionic/storage-angular';
 import { delayWhen } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
-/*******/
-/*!!! REPLACE BELOW WITH YOUR API URL !!! **/
-/*******/
+/***/
+/!!! REPLACE BELOW WITH YOUR API URL !!! */
+/***/
 const API_URL = 'https://thenicheapp.onrender.com/';
 
 /**
@@ -67,6 +67,7 @@ export class AuthService {
    */
   logIn$(authRequest: AuthRequest): Observable<User> {
     const authUrl = `${environment.apiUrl}/auth/login`;
+
     return this.http.post<AuthResponse>(authUrl, authRequest).pipe(
       delayWhen((auth) => this.#saveAuth$(auth)),
       map((auth) => {
@@ -87,31 +88,39 @@ export class AuthService {
     console.log('User logged out');
   }
 
-  updateProfil$(authRequest: AuthRequest, headers: any): Observable<User> {
+  // UPDATEPROFIL
+  //////////////////////////////////////////
+  // updateProfil$(authRequest: AuthRequest, userid: string): Observable<User> {
+  //   return this.#auth$.pipe((auth) => {
+  //     console.log("Objet d'authentification récupéré", auth);
+  //     if (!auth) {
+  //       console.error("Token d'authentification introuvable.");
+  //       return;
+  //     } else {
+  //       console.log('id', userid);
+  //       const headers = {
+  //         Authorization: auth.token,
+  //       }
+  //       const authUrl = ${environment.apiUrl}/utilisateurs/${authRequest.id};
+  //       const options = { headers };
+  //       return this.http.put<User>(authUrl, authRequest, options).pipe(
+  //         delayWhen((updateUser) => {
+  //           auth.userInfos = updateUser;
+  //           this.#auth$.next(auth);
+  //           return this.#saveAuth$(auth);
+  //         })
+  //       );
+  //     }
+  //   });
+  // }
+
+  deleteProfile$(authRequest: AuthRequest, headers: any): Observable<User> {
     // console.log('authRequest OK : ', authRequest);
     // console.log('authRequest.id OK : ', authRequest.id);
 
     const authUrl = `${environment.apiUrl}/utilisateurs/${authRequest.id}`;
-
     const options = { headers };
-
-    return this.http.put<AuthResponse>(authUrl, authRequest, options).pipe(
-      delayWhen((auth) => this.#saveAuth$(auth)),
-      map((auth) => {
-        this.#auth$.next(auth);
-        console.log('User updated');
-        return auth.userInfos;
-      })
-    );
-  }
-
-  deleteProfile$(authRequest: AuthRequest): Observable<User> {
-    // console.log('authRequest OK : ', authRequest);
-    // console.log('authRequest.id OK : ', authRequest.id);
-
-    const authUrl = `${environment.apiUrl}/utilisateurs/${authRequest.id}`;
-    
-    return this.http.delete<AuthResponse>(authUrl).pipe(
+    return this.http.delete<AuthResponse>(authUrl, options).pipe(
       delayWhen((auth) => this.#saveAuth$(auth)),
       map((auth) => {
         this.#auth$.next(auth);
