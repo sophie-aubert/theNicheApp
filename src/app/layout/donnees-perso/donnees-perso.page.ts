@@ -57,7 +57,6 @@ export class DonneesPersoPage implements OnInit {
     }
   }
 
-  // supprimer le compte avec la requête HTTP DELETE /utilisateurs/:id
   supprimerProfile() {
     console.log('bouton Supprimer OK');
 
@@ -69,14 +68,13 @@ export class DonneesPersoPage implements OnInit {
         return;
       } else {
         console.log('id', this.user?.id);
-        const headers = {
-          Authorization: authToken,
-        };
-        this.auth.deleteProfile$(this.profilRequest, headers);
 
-        // on déconnecte l'utilisateur
-        this.auth.logOut();
-        this.router.navigateByUrl('/login');
+        // Ne pas inclure les headers ici
+        this.auth.deleteProfile$(this.profilRequest).subscribe(() => {
+          // on déconnecte l'utilisateur
+          this.auth.logOut();
+          this.router.navigateByUrl('/login');
+        });
       }
     });
   }
