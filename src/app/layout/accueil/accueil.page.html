@@ -1,7 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Accueil</ion-title>
-
     <ion-buttons slot="end">
       <ion-button (click)="profil()">
         <ion-icon name="profil"></ion-icon>
@@ -18,7 +17,10 @@
 
 <ion-content [fullscreen]="true">
   <div class="ion-padding">
-    <ion-button id="open-modal" expand="block">Ouvrir la carte</ion-button>
+    <h1 class="custom-theniche">The Niche</h1>
+    <ion-button id="open-modal" expand="block" class="custom-ouvrir"
+      >Ouvrir la carte</ion-button
+    >
     <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
       <ng-template>
         <ion-header>
@@ -57,12 +59,11 @@
               <p>{{ annonce.categorie }}</p>
               <img [src]="annonce.image" class="image-container" />
               <div class="custom-details">
-              <h2 class="custom-titre">{{ annonce.titre }}</h2>
-              <p class="custom-description">{{ annonce.description }}</p>
-              
-              <p class="custom-prix">CHF {{ annonce.prix }}.-</p>
-            </div>
-              
+                <h2 class="custom-titre">{{ annonce.titre }}</h2>
+                <p class="custom-description">{{ annonce.description }}</p>
+
+                <p class="custom-prix">CHF {{ annonce.prix }}.-</p>
+              </div>
             </ion-label>
           </ion-item>
         </ion-col>

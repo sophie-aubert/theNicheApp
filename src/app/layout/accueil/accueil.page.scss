@@ -1,13 +1,21 @@
 .map {
   height: 100%
 }
+//donne moi une police d'ecriture helvetica
+.custom-theniche{
+  font-family: 'Raleway';font-size: 22px;
+  font-size: 50px;
+  font-weight: bold;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 
 .image-container {
   max-width: 300px; /* Vous pouvez ajuster cette valeur selon vos besoins */
   margin: 0 auto; /* Centre l'image container sur la page */
 }
 
-.button {
+.custom-ouvrir {
   margin-left: 80%;
   margin-top: 0%;
   margin-bottom: 1%;
@@ -40,7 +48,6 @@
   font-size: 25px;
   margin-top: 0px;
   margin-bottom: 8px;
-  color: rgb(0, 0, 0);
   font-weight: bold;
 
 }
@@ -62,5 +69,4 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
 }
