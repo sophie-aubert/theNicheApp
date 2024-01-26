@@ -2,8 +2,7 @@
 ## Application de Vente et Achat d'Habits et Accessoires
 
 ### Bienvenue sur l'application THE NICHE !
-### THE NICHE est une plateforme conçue pour simplifier le processus de vente et d'achat d'habits et d'accessoires de seconde main. 
-### Notre application offre une expérience conviviale, intuitive et sécurisée, permettant aux utilisateurs de découvrir une variété d'articles de mode et de vendre leurs propres articles 
+ THE NICHE est une plateforme conçue pour simplifier le processus de vente et d'achat d'habits et d'accessoires de seconde main. Notre application offre une expérience conviviale, intuitive et sécurisée, permettant aux utilisateurs de découvrir une variété d'articles de mode et de vendre leurs propres articles 
 
 **Fonctionnalités Principales**
 
