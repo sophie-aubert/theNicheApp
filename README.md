@@ -38,11 +38,10 @@ Merci d'avoir choisi THE NICHE. Profitez de votre expérience de shopping et de 
 
 **Clonez le répertoire de l'application sur votre machine**
 
-<aside>
+```
 💡 git clone https://github.com/sophie-aubert/theNicheApp.git
 cd nom_du_dossier_cloné
-
-</aside>
+```
 
 **Installer les dépendances**
 
