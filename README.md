@@ -39,36 +39,34 @@ Merci d'avoir choisi THE NICHE. Profitez de votre expérience de shopping et de 
 **Clonez le répertoire de l'application sur votre machine**
 
 ```
-💡 git clone https://github.com/sophie-aubert/theNicheApp.git
+git clone https://github.com/sophie-aubert/theNicheApp.git
 cd nom_du_dossier_cloné
 ```
 
 **Installer les dépendances**
 
-<aside>
-💡 npm install
-
-</aside>
+```
+npm install
+```
 
 **Créer un fichier "environment.ts" dans src/environments**
 
-<aside>
-💡 
+```
 export const environment = {
 production: false,
 apiUrl: "[https://thenicheapp.onrender.com](https://thenicheapp.onrender.com/)",
 qimgUrl: "https://comem-qimg.onrender.com/api",
 qimgSecret: "OA0m7jFm2G334pY7nzV84puCj6Ay6gtZbbF3yi7kTbh8ahuR/z1sN84bxcUpialYfsa2yW5dsWZwkjg0okJtwfnz9k3vaXgPnJrjLlqkMARVrbss/SSTWp7+fZc3mEN25uibnWt/37s5D2VRWEA7SvO5jMBKzrIAZ06utMmAthg=",
   };
-
-</aside>
+```
 
 **Lancement de l'Application**
 Pour lancer l'application sur un serveur de développement local, exécutez :
-
+```
 ionic serve
+```
 
-L'application s'executera sur [http://localhost:8100](http://localhost:8100/).
-Il se peut que les images des annonces mettent un peu de temps à charger, merci de votre patience :)
+**L'application s'executera sur [http://localhost:8100](http://localhost:8100/).
+Il se peut que les images des annonces mettent un peu de temps à charger, merci de votre patience :)**
 
 
