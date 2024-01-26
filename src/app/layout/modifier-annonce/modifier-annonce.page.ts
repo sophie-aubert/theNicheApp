@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-
-
+import { AchatVenteService } from 'src/app/achatvente/achat-vente.service';
+import { finalize } from 'rxjs';
 @Component({
   selector: 'app-modifier-annonce',
   templateUrl: './modifier-annonce.page.html',
@@ -22,23 +22,29 @@ import { RouterModule } from '@angular/router';
 })
 export class ModifierAnnoncePage {
   @Input() annonce: any;
+  
 
   constructor(
     private modalController: ModalController,
-    private navParams: NavParams
+    private navParams: NavParams,
+    private achatVenteService: AchatVenteService
   ) {
     this.annonce = this.navParams.get('annonce');
   }
-
-  // Fonction pour sauvegarder les modifications
-  sauvegarderModifications() {
-    // Envoyez les modifications au backend pour mise à jour
-    // (à implémenter en fonction de votre API)
-    // Une fois la mise à jour effectuée, vous pouvez fermer la modal
-    this.modalController.dismiss({
-      saved: true,
-    });
-  }
+// Fonction pour sauvegarder les modifications
+sauvegarderModifications() {
+  // Mettez à jour l'annonce via le service
+  this.achatVenteService.updateAnnonce(this.annonce)
+    .pipe(
+      finalize(() => {
+        // Une fois la mise à jour effectuée, vous pouvez fermer la modal
+        this.modalController.dismiss({
+          saved: true,
+        });
+      })
+    )
+    .subscribe();
+}
 
   // Fonction pour annuler les modifications
   annulerModifications() {
