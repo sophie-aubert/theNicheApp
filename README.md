@@ -43,9 +43,7 @@ cd nom_du_dossier_cloné
 
 Installer les dépendances
 
-<aside>
-💡 npm install
-</aside>
+<aside> npm install </aside>
 
 
 Configuration
