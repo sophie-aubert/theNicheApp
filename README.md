@@ -36,6 +36,40 @@ Merci d'avoir choisi THE NICHE. Profitez de votre expérience de shopping et de 
 
 ### Installation 
 
+Suivez ces étapes pour configurer l'environnement de développement pour votre application Ionic.
+
+Installer Ionic CLI
+
+Ouvrez un terminal et exécutez la commande suivante pour installer Ionic CLI globalement :
+
+npm install -g @ionic/cli
+Cloner le Répertoire
+
+Clonez le répertoire de l'application sur votre machine locale :
+
+git clone https://lien_vers_votre_repo.git
+cd nom_du_dossier_cloné
+Installer les Dépendances
+
+Dans le répertoire du projet, exécutez :
+
+npm install
+Configuration
+Configurer l'URL de l'API
+
+Ouvrez le fichier src/environments/environment.ts et fournissez l'URL de votre API :
+
+export const environment = {
+  production: false,
+  apiUrl: 'VOTRE_URL_API_ICI'
+};
+Remplacez VOTRE_URL_API_ICI par l'URL réelle de votre API.
+
+Lancement de l'Application
+Pour lancer l'application sur un serveur de développement local, exécutez :
+
+ionic serve
+Cela démarrera l'application sur http://localhost:8100. Ouvrez cette URL dans votre navigateur pour voir l'application en action.
 
 
 
