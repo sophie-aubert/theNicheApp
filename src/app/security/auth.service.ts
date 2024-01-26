@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, filter, map, from } from 'rxjs';
+import { Observable, ReplaySubject, filter, map, from, forkJoin } from 'rxjs';
 import { AuthResponse } from './auth-response.model';
 import { HttpClient } from '@angular/common/http';
 import { User } from './user.model';
 import { AuthRequest } from './auth-request.model';
 import { Storage } from '@ionic/storage-angular';
-import { delayWhen } from 'rxjs/operators';
+import { delayWhen, first } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 /***/
-/!!! REPLACE BELOW WITH YOUR API URL !!! */
+/!!! REPLACE BELOW WITH YOUR API URL !!! */;
 /***/
 const API_URL = 'https://thenicheapp.onrender.com/';
 
@@ -44,8 +44,6 @@ export class AuthService {
   getUser$(): Observable<User | undefined> {
     return this.#auth$.pipe(map((auth) => auth?.userInfos));
   }
-
-
 
   /**
    * @returns An Observable that will emit the currently authenticated user's token, only if there
@@ -92,29 +90,22 @@ export class AuthService {
 
   // UPDATEPROFIL
   //////////////////////////////////////////
-  // updateProfil$(authRequest: AuthRequest, userid: string): Observable<User> {
-  //   return this.#auth$.pipe((auth) => {
-  //     console.log("Objet d'authentification récupéré", auth);
-  //     if (!auth) {
-  //       console.error("Token d'authentification introuvable.");
-  //       return;
-  //     } else {
-  //       console.log('id', userid);
-  //       const headers = {
-  //         Authorization: auth.token,
-  //       }
-  //       const authUrl = ${environment.apiUrl}/utilisateurs/${authRequest.id};
-  //       const options = { headers };
-  //       return this.http.put<User>(authUrl, authRequest, options).pipe(
-  //         delayWhen((updateUser) => {
-  //           auth.userInfos = updateUser;
-  //           this.#auth$.next(auth);
-  //           return this.#saveAuth$(auth);
-  //         })
-  //       );
-  //     }
-  //   });
-  // }
+  updateProfil$(authRequest: AuthRequest, userid: string): Observable<User> {
+    const authUrl = `${environment.apiUrl}/utilisateurs/${authRequest.id}`;
+    return forkJoin([
+      this.#auth$.pipe(first()),
+      this.http.put<User>(authUrl, authRequest),
+    ]).pipe(
+      map(([auth, updatedUser]) => {
+        if (auth) {
+          auth.userInfos = updatedUser;
+          this.#saveAuth$(auth);
+          this.#auth$.next(auth);
+        }
+        return updatedUser;
+      })
+    );
+  }
 
   deleteProfile$(authRequest: AuthRequest, headers: any): Observable<User> {
     // console.log('authRequest OK : ', authRequest);

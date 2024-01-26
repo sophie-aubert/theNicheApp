@@ -46,14 +46,16 @@ export class DonneesPersoPage implements OnInit {
 
   // ONSUBMITMODIF
   ///////////////////////////////////
-  // onSubmitModif(form: NgForm) {
-  //       this.auth
-  //         .updateProfil$(this.profilRequest)
-  //         .subscribe((response) => {
-  //           console.log('response', response);
-  //           this.router.navigateByUrl('/accueil');
-  //         });
-  // }
+  onSubmitModif(form: NgForm) {
+    if (this.user) {
+      this.auth
+        .updateProfil$(this.profilRequest, this.user.id)
+        .subscribe((response) => {
+          console.log('response', response);
+          this.router.navigateByUrl('/accueil');
+        });
+    }
+  }
 
   // supprimer le compte avec la requête HTTP DELETE /utilisateurs/:id
   supprimerProfile() {
