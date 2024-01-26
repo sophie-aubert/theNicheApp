@@ -27,12 +27,9 @@ export class PaiementPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Récupérer les données du panier transmises par la page précédente
     this.route.queryParams.subscribe((params) => {
       if (params && params['state'] && JSON.parse(params['state']).panier) {
         this.articlesInPanier = JSON.parse(params['state']).panier;
-
-        // Calculer le total après avoir chargé les données
         this.calculerTotal();
         console.log('Articles dans le panier', this.articlesInPanier);
       }
@@ -44,7 +41,6 @@ export class PaiementPage implements OnInit {
     if (index !== -1) {
       this.articlesInPanier.splice(index, 1);
     }
-    // Calculer le total après avoir retiré un article
     this.calculerTotal();
   }
 
@@ -68,14 +64,10 @@ export class PaiementPage implements OnInit {
         alert(
           'Paiement effectué avec succès, merci pour votre achat ! Un mail de confirmation vous a été envoyé.'
         );
-
-        // on appelle la fonction videPanier() du service PanierService
-        // pour vider le panier
         this.panierService.videPanier();
         this.router.navigateByUrl('/');
       })
       .catch((error) => {
-        // Gestion des erreurs globales
         console.error(
           'Erreur lors de la mise à jour du statut pour certains articles',
           error

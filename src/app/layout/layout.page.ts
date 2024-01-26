@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { homeOutline, addCircleOutline, listOutline } from 'ionicons/icons';
 
-// Custom type that represents a tab data.
 declare type PageTab = {
-  title: string; // The title of the tab in the tab bar
-  icon: string; // The icon of the tab in the tab bar
-  path: string; // The route's path of the tab to display
+  title: string;
+  icon: string;
+  path: string;
 };
 
 @Component({

@@ -1,4 +1,3 @@
-// modifier-annonce.page.ts
 import { Component, Input } from '@angular/core';
 import { ModalController, NavParams } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -12,17 +11,10 @@ import { finalize } from 'rxjs';
   templateUrl: './modifier-annonce.page.html',
   styleUrls: ['./modifier-annonce.page.scss'],
   standalone: true,
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    RouterModule,
-   
-  ]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
 export class ModifierAnnoncePage {
   @Input() annonce: any;
-  
 
   constructor(
     private modalController: ModalController,
@@ -31,24 +23,20 @@ export class ModifierAnnoncePage {
   ) {
     this.annonce = this.navParams.get('annonce');
   }
-// Fonction pour sauvegarder les modifications
-sauvegarderModifications() {
-  // Mettez à jour l'annonce via le service
-  this.achatVenteService.updateAnnonce(this.annonce)
-    .pipe(
-      finalize(() => {
-        // Une fois la mise à jour effectuée, vous pouvez fermer la modal
-        this.modalController.dismiss({
-          saved: true,
-        });
-      })
-    )
-    .subscribe();
-}
+  sauvegarderModifications() {
+    this.achatVenteService
+      .updateAnnonce(this.annonce)
+      .pipe(
+        finalize(() => {
+          this.modalController.dismiss({
+            saved: true,
+          });
+        })
+      )
+      .subscribe();
+  }
 
-  // Fonction pour annuler les modifications
   annulerModifications() {
-    // Fermez la modal sans sauvegarder les modifications
     this.modalController.dismiss({
       saved: false,
     });

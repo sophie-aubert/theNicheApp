@@ -36,7 +36,6 @@ export class PanierPage implements OnInit, OnDestroy {
       await this.panierService.initStorage();
       const panier = await this.panierService.getPanier();
 
-      // Filtrer les articles avec le statut "En ligne"
       this.articlesInPanier = panier.filter(
         (article) => article.status === 'En ligne'
       );

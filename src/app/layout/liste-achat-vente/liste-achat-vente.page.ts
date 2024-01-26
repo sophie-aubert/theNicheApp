@@ -7,9 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
-import { ModifierAnnoncePage } from '../modifier-annonce/modifier-annonce.page'; // Import du composant ModifierAnnoncePage
-
-
+import { ModifierAnnoncePage } from '../modifier-annonce/modifier-annonce.page';
 
 @Component({
   selector: 'app-liste-achat-vente',
@@ -21,8 +19,7 @@ import { ModifierAnnoncePage } from '../modifier-annonce/modifier-annonce.page';
 export class ListeAchatVentePage implements OnInit {
   annonces: any[] = [];
 
-  userId: string = ''; // Update the type to string
-
+  userId: string = '';
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -54,7 +51,6 @@ export class ListeAchatVentePage implements OnInit {
       (user) => {
         if (user) {
           this.userId = user.id;
-          // Utilisez la chaîne de caractères userId
 
           this.AchatVenteService.getMesAnnonces(this.userId).subscribe(
             (ventes: any[]) => {
@@ -77,7 +73,6 @@ export class ListeAchatVentePage implements OnInit {
     );
   }
 
-  // Méthode pour déterminer la couleur du badge en fonction du statut
   badgeColor(status: string): string {
     switch (status) {
       case 'En ligne':
@@ -91,7 +86,6 @@ export class ListeAchatVentePage implements OnInit {
     }
   }
 
-  // Méthode pour afficher le texte en fonction du statut
   displayText(status: string): string {
     switch (status) {
       case 'En ligne':
@@ -105,47 +99,44 @@ export class ListeAchatVentePage implements OnInit {
     }
   }
 
-// Fonction pour supprimer une annonce
-async supprimerAnnonce(annonce: any) {
-  const alert = await this.alertController.create({
-    header: 'Confirmer la suppression',
-    message: 'Voulez-vous vraiment supprimer cette annonce ?',
-    buttons: [
-      {
-        text: 'Annuler',
-        role: 'cancel',
-        cssClass: 'secondary',
-      },
-      {
-        text: 'Supprimer',
-        handler: async () => {
-          try {
-            // Assurez-vous que l'annonce a un ID avant de tenter de le supprimer
-            const annonceId = annonce && annonce._id;
-
-            if (annonceId) {
-              // Appelez le service pour supprimer l'annonce
-              await this.AchatVenteService.supprimerAnnonce(annonceId).toPromise();
-              // Mettez à jour la liste des annonces après la suppression
-              this.loadVentesAchats();
-              // Vous pouvez également ajouter une notification ou un message de confirmation ici
-            } else {
-              console.error('L\'annonce n\'a pas d\'ID valide');
-            }
-          } catch (error) {
-            console.error('Erreur lors de la suppression de l\'annonce', error);
-          }
+  async supprimerAnnonce(annonce: any) {
+    const alert = await this.alertController.create({
+      header: 'Confirmer la suppression',
+      message: 'Voulez-vous vraiment supprimer cette annonce ?',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
         },
-      },
-    ],
-  });
+        {
+          text: 'Supprimer',
+          handler: async () => {
+            try {
+              const annonceId = annonce && annonce._id;
 
-  await alert.present();
-}
+              if (annonceId) {
+                await this.AchatVenteService.supprimerAnnonce(
+                  annonceId
+                ).toPromise();
+                this.loadVentesAchats();
+              } else {
+                console.error("L'annonce n'a pas d'ID valide");
+              }
+            } catch (error) {
+              console.error(
+                "Erreur lors de la suppression de l'annonce",
+                error
+              );
+            }
+          },
+        },
+      ],
+    });
 
+    await alert.present();
+  }
 
-
-  // Fonction pour modifier une annonce
   async modifierAnnonce(annonce: any) {
     const modal = await this.modalController.create({
       component: ModifierAnnoncePage,
@@ -155,12 +146,9 @@ async supprimerAnnonce(annonce: any) {
     });
 
     modal.onDidDismiss().then((data) => {
-      // Rechargez les annonces après la modification (à ajuster en fonction de votre logique)
       this.loadVentesAchats();
     });
 
     return await modal.present();
   }
 }
-
-

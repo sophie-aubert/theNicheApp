@@ -24,7 +24,6 @@ import { PictureService } from 'src/app/picture/picture.service';
   imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
 export class AjoutArticlePage implements OnInit {
-  //définir les proprités du nouvel article
   nouvelArticle: any = {
     titre: '',
     description: '',
@@ -35,7 +34,6 @@ export class AjoutArticlePage implements OnInit {
   };
   suggestions: any[] = [];
 
-  // Assurez-vous que cette propriété est correctement déclarée
   categories: string[] = [
     'Chaussures',
     'Pantalons',
@@ -69,8 +67,6 @@ export class AjoutArticlePage implements OnInit {
 
           if (response.length > 0) {
             this.suggestions = response;
-
-            // Stockez la latitude et la longitude dans nouvelArticle
           }
         },
         (error: any) => {
@@ -84,7 +80,7 @@ export class AjoutArticlePage implements OnInit {
     this.nouvelArticle.longitude = city.lon;
     this.nouvelArticle.latitude = city.lat;
     this.nouvelArticle.localisation = city.display_name;
-    this.suggestions = []; // Clear the suggestion list
+    this.suggestions = [];
   }
 
   ngOnInit() {}
@@ -115,27 +111,21 @@ export class AjoutArticlePage implements OnInit {
   }
 
   ajouterArticle() {
- 
-        const apiUrl = 'https://thenicheapp.onrender.com';
-        const endpoint = `${apiUrl}/annonces`;
+    const apiUrl = 'https://thenicheapp.onrender.com';
+    const endpoint = `${apiUrl}/annonces`;
 
-        this.http
-          .post(endpoint, this.nouvelArticle)
-          .subscribe(
-            (response: any) => {
-              console.log('Nouvel article ajouté avec succès!', response);
-              this.nouvelArticle = {};
-              this.router.navigateByUrl('/accueil');
-            },
-            (error: any) => {
-              console.error("Erreur lors de l'ajout de l'article", error);
-              // Imprimer le contenu de l'erreur pour obtenir des détails spécifiques du serveur
-              if (error instanceof HttpErrorResponse) {
-                console.error('Erreur du serveur:', error.error);
-              }
-            }
-          );
-     
-          
+    this.http.post(endpoint, this.nouvelArticle).subscribe(
+      (response: any) => {
+        console.log('Nouvel article ajouté avec succès!', response);
+        this.nouvelArticle = {};
+        this.router.navigateByUrl('/accueil');
+      },
+      (error: any) => {
+        console.error("Erreur lors de l'ajout de l'article", error);
+        if (error instanceof HttpErrorResponse) {
+          console.error('Erreur du serveur:', error.error);
+        }
+      }
+    );
   }
 }

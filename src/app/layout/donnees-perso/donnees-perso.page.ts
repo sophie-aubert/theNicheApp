@@ -23,8 +23,6 @@ export class DonneesPersoPage implements OnInit {
 
   constructor(private auth: AuthService, private router: Router) {}
 
-  // quand on refresh la page, appelle le ngOnInit
-
   ngOnInit() {
     this.auth.getUser$().subscribe((user) => {
       this.user = user;
@@ -44,8 +42,6 @@ export class DonneesPersoPage implements OnInit {
     });
   }
 
-  // ONSUBMITMODIF
-  ///////////////////////////////////
   onSubmitModif(form: NgForm) {
     if (this.user) {
       this.auth
@@ -69,9 +65,7 @@ export class DonneesPersoPage implements OnInit {
       } else {
         console.log('id', this.user?.id);
 
-        // Ne pas inclure les headers ici
         this.auth.deleteProfile$(this.profilRequest).subscribe(() => {
-          // on déconnecte l'utilisateur
           this.auth.logOut();
           this.router.navigateByUrl('/login');
         });
