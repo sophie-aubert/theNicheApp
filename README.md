@@ -36,24 +36,18 @@ Merci d'avoir choisi THE NICHE. Profitez de votre expérience de shopping et de 
 
 ### Installation 
 
-Suivez ces étapes pour configurer l'environnement de développement pour votre application Ionic.
+Clonez le répertoire de l'application sur votre machine :
 
-Installer Ionic CLI
-
-Ouvrez un terminal et exécutez la commande suivante pour installer Ionic CLI globalement :
-
-npm install -g @ionic/cli
-Cloner le Répertoire
-
-Clonez le répertoire de l'application sur votre machine locale :
-
-git clone https://lien_vers_votre_repo.git
+git clone https://github.com/sophie-aubert/theNicheApp.git
 cd nom_du_dossier_cloné
-Installer les Dépendances
 
-Dans le répertoire du projet, exécutez :
+Installer les dépendances
 
-npm install
+<aside>
+💡 npm install
+</aside>
+
+
 Configuration
 Configurer l'URL de l'API
 
