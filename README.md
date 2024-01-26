@@ -34,34 +34,42 @@ Acheter des Articles : Ajoutez vos articles préférés à votre panier et proc�
 Merci d'avoir choisi THE NICHE. Profitez de votre expérience de shopping et de vente unique !
 
 
-### Installation 
+### Installation
 
-Clonez le répertoire de l'application sur votre machine :
+**Clonez le répertoire de l'application sur votre machine**
 
-git clone https://github.com/sophie-aubert/theNicheApp.git
+<aside>
+💡 git clone https://github.com/sophie-aubert/theNicheApp.git
 cd nom_du_dossier_cloné
 
-Installer les dépendances
+</aside>
 
-<aside> npm install </aside>
+**Installer les dépendances**
 
+<aside>
+💡 npm install
 
-Configuration
-Configurer l'URL de l'API
+</aside>
 
-Ouvrez le fichier src/environments/environment.ts et fournissez l'URL de votre API :
+**Créer un fichier "environment.ts" dans src/environments**
 
+<aside>
+💡 
 export const environment = {
-  production: false,
-  apiUrl: 'VOTRE_URL_API_ICI'
-};
-Remplacez VOTRE_URL_API_ICI par l'URL réelle de votre API.
+production: false,
+apiUrl: "[https://thenicheapp.onrender.com](https://thenicheapp.onrender.com/)",
+qimgUrl: "https://comem-qimg.onrender.com/api",
+qimgSecret: "OA0m7jFm2G334pY7nzV84puCj6Ay6gtZbbF3yi7kTbh8ahuR/z1sN84bxcUpialYfsa2yW5dsWZwkjg0okJtwfnz9k3vaXgPnJrjLlqkMARVrbss/SSTWp7+fZc3mEN25uibnWt/37s5D2VRWEA7SvO5jMBKzrIAZ06utMmAthg=",
+  };
 
-Lancement de l'Application
+</aside>
+
+**Lancement de l'Application**
 Pour lancer l'application sur un serveur de développement local, exécutez :
 
 ionic serve
-Cela démarrera l'application sur http://localhost:8100. Ouvrez cette URL dans votre navigateur pour voir l'application en action.
 
+L'application s'executera sur [http://localhost:8100](http://localhost:8100/).
+Il se peut que les images des annonces mettent un peu de temps à charger, merci de votre patience :)
 
 
