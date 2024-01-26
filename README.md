@@ -23,7 +23,7 @@ Ajoutez et gérez les articles de votre panier pour un processus d'achat simple 
 **5. La carte**
 Retrouvez l'ensemble des articles proches de vous sur la carte et permettez également aux utilisateurs de retrouver vos articles plus facilement.
 
-**5. La caméra**
+**6. La caméra**
 Si vous ne disposez pas de photo de votre article, vous pouvez directement prendre une photo :) (utile)
 
 
