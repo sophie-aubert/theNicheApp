@@ -44,21 +44,29 @@
       [(ngModel)]="recherche"
       (input)="onInputChange()"
       placeholder="Recherche"
+      class="custom-search-bar"
     />
     <ion-list *ngIf="annonces && annonces.length > 0">
-      <ion-item
-        *ngFor="let annonce of annonces"
-        (click)="onAnnonceClick(annonce)"
-        routerLink="/article/{{ annonce._id }}"
-      >
-        <ion-label>
-          <h2>{{ annonce.titre }}</h2>
-          <p>{{ annonce.description }}</p>
-          <p>Prix: {{ annonce.prix }}</p>
-          <p>Catégorie: {{ annonce.categorie }}</p>
-          <img [src]="annonce.image" class="image-container" />
-        </ion-label>
-      </ion-item>
+      <ion-row>
+        <ion-col size="4" *ngFor="let annonce of annonces">
+          <ion-item
+            (click)="onAnnonceClick(annonce)"
+            routerLink="/article/{{ annonce._id }}"
+          >
+            <ion-label class="custom-ionlabel">
+              <p>{{ annonce.categorie }}</p>
+              <img [src]="annonce.image" class="image-container" />
+              <div class="custom-details">
+              <h2 class="custom-titre">{{ annonce.titre }}</h2>
+              <p class="custom-description">{{ annonce.description }}</p>
+              
+              <p class="custom-prix">CHF {{ annonce.prix }}.-</p>
+            </div>
+              
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
     </ion-list>
 
     <!-- Gérer le cas où il n'y a pas d'annonces -->

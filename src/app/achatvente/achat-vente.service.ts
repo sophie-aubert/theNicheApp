@@ -36,10 +36,9 @@ export class AchatVenteService {
 
       modifierStatus(annonce: any, nouveauStatut: string): Observable<any> {
         const url = `${this.apiUrl}/annonces/${annonce._id}`;
-        const updateData = { statut: nouveauStatut };
+        const updateData = { status: nouveauStatut };
         return this.http.put(url, updateData);
       }
-      
 
 
 }

@@ -6,3 +6,61 @@
   max-width: 300px; /* Vous pouvez ajuster cette valeur selon vos besoins */
   margin: 0 auto; /* Centre l'image container sur la page */
 }
+
+.button {
+  margin-left: 80%;
+  margin-top: 0%;
+  margin-bottom: 1%;
+  width: 20%;
+}
+
+
+.custom-search-bar {
+  font-size: 20px; 
+  width: 100%;
+}
+
+
+.custom-titre {
+  font-size: 30px;
+}
+
+
+.custon-description {
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  margin-top: 0px;
+  margin-bottom: 0px;
+
+}
+
+
+.custom-prix {
+  font-size: 25px;
+  margin-top: 0px;
+  margin-bottom: 8px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+
+}
+
+
+
+.custom-categorie {
+  font-size: 20px;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
+
+.custom-ionlabel {
+  height: 550px; /* Ajustez la hauteur selon vos besoins */
+  width: 350px;
+  overflow: hidden; /* Cacher le contenu qui dépasse la hauteur définie */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+}

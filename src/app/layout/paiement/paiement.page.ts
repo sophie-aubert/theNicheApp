@@ -52,7 +52,7 @@ export class PaiementPage implements OnInit {
   passerPaiement() {
     const updateStatusPromises = this.articlesInPanier.map((article) => {
       article.status = 'Acheté';
-      return firstValueFrom(this.achatVenteService.modifierStatus(article, "Acheté"));
+      return firstValueFrom(this.achatVenteService.modifierStatus(article, article.status));
       
     });
   
