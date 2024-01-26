@@ -14,24 +14,23 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
- 
+
 <ion-content [fullscreen]="true">
   <div class="ion-padding">
-    <!-- Affichez les détails de l'annonce ici -->
-    <h2>{{ annonceDetails.titre }}</h2>
-    <p>
-      Description : <br />
-      {{ annonceDetails.description }}
-    </p>
     <img [src]="annonceDetails.image" class="image-container" />
- 
-    <p>Prix: CHF {{ annonceDetails.prix }}</p>
-    <p>Lieu de la vente : {{annonceDetails.localisation}}</p>
- 
-    <!-- Bouton "Ajouter au panier" -->
-    <ion-button expand="full" color="success" (click)="ajouterAuPanier()">
-      Ajouter au panier
-    </ion-button>
+    <div class="custom-infos">
+      <h2 class="titre">{{ annonceDetails.titre }}</h2>
+      <p class="description">Description : {{ annonceDetails.description }}</p>
+      <p class="prix">CHF {{ annonceDetails.prix }}.-</p>
+      <p class="lieu">Lieu de la vente : {{annonceDetails.localisation}}</p>
+    </div>
   </div>
+  <ion-button
+    expand="full"
+    color="success"
+    (click)="ajouterAuPanier()"
+    class="custom-panier"
+  >
+    Ajouter au panier
+  </ion-button>
 </ion-content>
- 

@@ -20,7 +20,7 @@
     <ion-list>
       <ion-item *ngFor="let annonce of annonces">
         <ion-label>{{ annonce.titre }}</ion-label>
-        <ion-badge [color]="badgeColor(annonce.status)">
+        <ion-badge [color]="badgeColor(annonce.status)" class="custom-status">
           {{ displayText(annonce.status) }}
         </ion-badge>
         <ion-button (click)="modifierAnnonce(annonce)">Modifier</ion-button>

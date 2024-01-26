@@ -1,18 +1,19 @@
 .map {
   height: 100%
 }
-//donne moi une police d'ecriture helvetica
+
 .custom-theniche{
-  font-family: 'Raleway';font-size: 22px;
-  font-size: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 70px;
   font-weight: bold;
   margin-top: 0px;
   margin-bottom: 0px;
+  text-align: center;
 }
 
 .image-container {
-  max-width: 300px; /* Vous pouvez ajuster cette valeur selon vos besoins */
-  margin: 0 auto; /* Centre l'image container sur la page */
+  max-width: 300px; 
+  margin: 0 auto; 
 }
 
 .custom-ouvrir {
@@ -63,9 +64,9 @@
 }
 
 .custom-ionlabel {
-  height: 550px; /* Ajustez la hauteur selon vos besoins */
+  height: 550px; 
   width: 350px;
-  overflow: hidden; /* Cacher le contenu qui dépasse la hauteur définie */
+  overflow: hidden; 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
