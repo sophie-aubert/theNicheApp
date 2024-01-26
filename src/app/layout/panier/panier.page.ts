@@ -77,8 +77,4 @@ export class PanierPage implements OnInit, OnDestroy {
       this.panierService.setPanier(this.articlesInPanier);
     }
   }
-
-  clearPanier(): void {
-    this.articlesInPanier = [];
-  }
 }

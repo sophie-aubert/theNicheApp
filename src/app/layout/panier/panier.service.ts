@@ -36,4 +36,10 @@ export class PanierService {
     await this.storage.set(this.STORAGE_KEY, this.panier);
     this.panierSubject.next([...this.panier]); // Émettez une notification de changement
   }
+
+  videPanier() {
+    this.panier = [];
+    this.storage.remove(this.STORAGE_KEY);
+    this.panierSubject.next([...this.panier]); // Émettez une notification de changement
+  }
 }
