@@ -3,20 +3,17 @@
     <ion-title>Paiement</ion-title>
   </ion-toolbar>
 </ion-header>
- 
+
 <ion-content [fullscreen]="true">
-  <!-- Leave the previous content here -->
-  <!-- Add the div below. The .ion-padding class adds some space around the content -->
   <div class="ion-padding">Bienvenue sur la page de paiement</div>
- 
   <ion-content>
     <h2>Articles dans le panier :</h2>
     <ion-list>
       <ion-item *ngFor="let article of articlesInPanier">
-        <p>{{ article.titre }} :</p>
- 
+        <p>{{ article.titre }}</p>
+
         <p slot="end">CHF {{ article.prix }}</p>
- 
+
         <ion-button
           color="danger"
           (click)="retirerDuPaiement(article)"
@@ -25,11 +22,11 @@
         >
       </ion-item>
     </ion-list>
- 
+
     <div class="ion-padding">
       <h2>Total : CHF {{ total }}</h2>
     </div>
- 
+
     <ion-button
       *ngIf="articlesInPanier.length > 0"
       expand="full"
@@ -38,8 +35,7 @@
     >
       Payer
     </ion-button>
- 
+
     <!-- Ajoutez ici le reste de votre contenu de la page de paiement -->
   </ion-content>
 </ion-content>
- 

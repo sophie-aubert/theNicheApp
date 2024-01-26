@@ -20,7 +20,8 @@
     <ion-item *ngFor="let article of articlesInPanier">
       <!-- Afficher seulement si le statut de l'article est "En Ligne" -->
       <ng-container *ngIf="article.status === 'En ligne'">
-        {{ article.titre }} - {{ article.prix }}
+        {{ article.titre }} <br />
+        {{article.description}} || CHF {{ article.prix }}
         <ion-icon
           name="supprimer"
           slot="end"
