@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PanierPage } from '../panier/panier.page';
+import { AchatVenteService } from 'src/app/achatvente/achat-vente.service';
+import { firstValueFrom } from 'rxjs';
  
 @Component({
   selector: 'app-paiement',
@@ -16,7 +18,7 @@ export class PaiementPage implements OnInit {
   articlesInPanier: any[] = [];
   total: number = 0;
  
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private achatVenteService : AchatVenteService, private router: Router) {}
  
   ngOnInit() {
     // Récupérer les données du panier transmises par la page précédente
@@ -46,18 +48,28 @@ export class PaiementPage implements OnInit {
       0
     );
   }
- 
+
   passerPaiement() {
-    this.articlesInPanier.forEach((article) => {});
-    this.articlesInPanier = [];
-    this.total = 0;
-    console.log('articlesInPanier', this.articlesInPanier);
- 
-    alert(
-      'Paiement effectué avec succès, merci pour votre achat ! Un mail de confirmation vous a été envoyé.'
-    );
-    // Rediriger vers la page d'accueil
-    window.location.href = '/';
+    const updateStatusPromises = this.articlesInPanier.map((article) => {
+      article.status = 'Acheté';
+      return firstValueFrom(this.achatVenteService.modifierStatus(article, "Acheté"));
+      
+    });
+  
+    Promise.all(updateStatusPromises)
+      .then(() => {
+        // Toutes les mises à jour de statut ont réussi
+        this.articlesInPanier = [];
+        this.total = 0;
+        console.log('articlesInPanier', this.articlesInPanier);
+  
+        alert('Paiement effectué avec succès, merci pour votre achat ! Un mail de confirmation vous a été envoyé.');
+  
+       this.router.navigateByUrl('/');
+      }) 
+      .catch((error) => {
+        // Gestion des erreurs globales
+        console.error('Erreur lors de la mise à jour du statut pour certains articles', error);
+      });
   }
 }
- 
